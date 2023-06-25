@@ -102,6 +102,7 @@ class DataIngestion:
             
             data_ingestion_artifact = DataIngestionArtifact(train_file_path=train_file_path,
                                 test_file_path=test_file_path,
+                                raw_file_path=src_file_path,
                                 is_ingested=True,
                                 message=f"Data ingestion completed successfully."
                                 )
@@ -115,7 +116,7 @@ class DataIngestion:
     def __del__(self):
         logging.info(f"{'>>'*20} Data Ingestion log completed.{'<<'*20} \n\n")
 
-if __name__=="__main__":
-    a = DataIngestion()
-    a.download_data()
+# if __name__=="__main__":
+#     a = DataIngestion()
+#     a.download_data()
     

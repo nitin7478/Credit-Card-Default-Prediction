@@ -1,12 +1,16 @@
 from src.pipeline.pipeline import Pipeline
 from src.exception import CustomException
 from src.logger import logging
+from src.config.configuration import Configuration
+from numba.core.errors import NumbaDeprecationWarning, NumbaPendingDeprecationWarning
+from src.components.data_validation import DataValidation
 
-
-def main():
+def main(): 
     try:
         pipeline = Pipeline()
         pipeline.run_pipeline()
+        # a = DataValidation().initiate_data_validation()
+        # print(a)
     except Exception as e:
         logging.error(f"{e}")
         print(e)
