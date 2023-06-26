@@ -31,21 +31,28 @@ class DataValidation:
         except Exception as e:
             raise CustomException(e,sys) from e
         
-    def is_old_new_raw_dataset_datadrift_found(self , number_of_n_runs_old)->bool:
+    def is_old_new_raw_dataset_datadrift_found(self , number_of_n_runs_old:int)->bool:
         try:
+            is_data_drift_found = False
             ## Scenario wew are running program for every n days , user specify n number or folders back
+            number_of_n_runs_old = - abs(number_of_n_runs_old)
+            
             logging.info(f"converting new and old dataset of {number_of_n_runs_old} folders before , into dataframe")
             new_raw_file_path = self.data_ingestion_artifact.raw_file_path
             logging.info(f"Reading new excel file: [{new_raw_file_path}]")
             new_df = pd.read_excel(new_raw_file_path , skiprows=1)
             remains = ("\\").join(new_raw_file_path.split("\\")[-2:])
             paths = ("\\").join(new_raw_file_path.split("\\")[:-3])
-            old_date = str(os.listdir(paths)[-5])
-            old_file_path = os.path.join(paths,old_date, remains)
-            logging.info(f"Reading new excel file: [{old_file_path} of date :{old_date} \
+            
+            old_file_path = None
+            if len(list(os.listdir(paths))) > abs(number_of_n_runs_old):
+                old_date = str(os.listdir(paths)[number_of_n_runs_old])
+                old_file_path = os.path.join(paths,old_date, remains)
+                
+                logging.info(f"Reading new excel file: [{old_file_path} of date :{old_date} \
                 which is {number_of_n_runs_old} folders back]")
-            if os.path.exists(old_file_path):
-                old_df = pd.read_excel(old_file_path , skiprows=1)
+                if os.path.exists(old_file_path):
+                    old_df = pd.read_excel(old_file_path , skiprows=1)
                 drift_report = Report(metrics=[DataDriftPreset(), TargetDriftPreset()])
                 drift_report.run(reference_data=old_df, current_data=new_df)
                 report = json.loads(drift_report.json())
@@ -56,8 +63,11 @@ class DataValidation:
                 else:
                     raise Exception(f"Old and new dataset Data drift found")
                 return is_data_drift_found
+                # raise Exception("Old period raw file is missing,kindly disable old new dataset data drift check function")
             else:
-                raise Exception("Old period raw file is missing,kindly disable old new dataset data drift check function")
+                logging.error("Old period raw files for data drift not found, kindly check old files or update key data_drift_check_old_period in config.yaml file for temporary basis")
+                print("Old period raw files for data drift not found, kindly check old files or update key data_drift_check_old_period in config.yaml file for temporary basis")
+            return is_data_drift_found
         except Exception as e :
             raise CustomException(e, sys) from e
         

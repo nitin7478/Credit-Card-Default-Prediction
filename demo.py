@@ -9,7 +9,7 @@ def main():
     try:
         pipeline = Pipeline()
         pipeline.run_pipeline()
-        # a = DataValidation().initiate_data_validation()
+        # a = Configuration().get_data_transformation_config()
         # print(a)
     except Exception as e:
         logging.error(f"{e}")

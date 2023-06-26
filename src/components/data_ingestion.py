@@ -77,7 +77,8 @@ class DataIngestion:
             src_file_path = os.path.join(raw_data_dir, file_name)
             logging.info(f"Reading excel file: [{src_file_path}]")
             df = pd.read_excel(src_file_path , skiprows=1)
-            
+            # We are reading excel file and exporting csv as train and test file
+            file_name = file_name.replace('.xls','.csv')
             logging.info(f"Splitting data into train and test")
             
             strat_train_set = None 

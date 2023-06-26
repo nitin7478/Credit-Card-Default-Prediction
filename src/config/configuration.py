@@ -1,5 +1,5 @@
 # we are going to use config.yaml and config_entity.yaml file content in this file
-from src.entity.config_entity import DataIngestionConfig, DataValidationConfig ,DataTransoformationConfig, \
+from src.entity.config_entity import DataIngestionConfig, DataValidationConfig ,DataTransformationConfig, \
     ModelTrainerConfig ,  ModelPusherConfig , TrainingPipelineConfig, ModelEvaluationConfig
 from src.util import read_yaml_file
 import os,sys
@@ -72,13 +72,43 @@ class Configuration:
                                                           report_page_file_path=report_page_file_path,
                                                           data_drift_check_old_period=data_drift_check_old_period)
             
-            
+            logging.info(f"Data Validation config : {data_validation_config}")
             return data_validation_config
         except Exception as e:
             raise CustomException(e , sys) from e
     
-    def get_data_transformation_config(self) -> DataTransoformationConfig:
-        pass
+    def get_data_transformation_config(self) -> DataTransformationConfig:
+        try:
+            artifact_dir = self.training_pipeline_config.artifact_dir
+            data_transformation_artifact_dir = os.path.join(artifact_dir,
+                                                            DATA_TRANSFORMATION_ARTIFACT_DIR,
+                                                            self.time_stamp)
+            data_transformation_config_info = self.config_info[DATA_TRANSFORMATION_CONFIG_KEY]
+            
+            trasnformed_train_dir = os.path.join(
+                data_transformation_artifact_dir,
+                data_transformation_config_info[DATA_TRANSFORMATION_DIR_NAME_KEY],
+                data_transformation_config_info[DATA_TRANSFORMATION_TRAIN_DIR_NAME_KEY])
+            
+            
+            transformed_test_dir = os.path.join(
+                data_transformation_artifact_dir,
+                data_transformation_config_info[DATA_TRANSFORMATION_DIR_NAME_KEY],
+                data_transformation_config_info[DATA_TRANSFORMATION_TEST_DIR_NAME_KEY])                                  
+            
+            preprocessed_object_file_path = os.path.join(
+                data_transformation_artifact_dir,
+                data_transformation_config_info[DATA_TRANSFORMATION_PREPROCESSING_DIR_KEY],
+                data_transformation_config_info[DATA_TRANSFORMATION_PREPROCESSED_FILE_NAME_KEY])
+            
+            data_transformation_config = DataTransformationConfig(
+                transformed_test_dir=transformed_test_dir,
+                trasnformed_train_dir=trasnformed_train_dir,
+                preprocessed_object_file_path=preprocessed_object_file_path)
+            logging.info(f"Data Transformation config : {data_transformation_config}")
+            return data_transformation_config
+        except Exception as e:
+            raise CustomException(e , sys) from e
     
     def get_model_trainer_config(self) -> ModelTrainerConfig :
         pass
@@ -96,7 +126,9 @@ class Configuration:
                                         training_pipeline_config[TRAINING_PIPELINE_NAME_KEY],
                                         training_pipeline_config[TRAINING_PIPELINE_ARTIFACT_DIR_KEY]
                                         )
+            
             training_pipeline_config = TrainingPipelineConfig(artifact_dir=artifact_dir)
+            
             logging.info(f"Training pipeline config : {training_pipeline_config}")
             return training_pipeline_config
         except Exception as e:
