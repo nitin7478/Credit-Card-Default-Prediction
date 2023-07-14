@@ -19,6 +19,20 @@ def read_yaml_file(file_path:str) -> dict:
     except Exception as e:
         raise CustomException(e, sys) from e
 
+def write_yaml_file(file_path:str,data:dict=None):
+    """
+    Create yaml file 
+    file_path: str
+    data: dict
+    """
+    try:
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+        with open(file_path,"w") as yaml_file:
+            if data is not None:
+                yaml.dump(data,yaml_file)
+    except Exception as e:
+        raise CustomException(e,sys)
+
 
 def load_data(file_path : str, schema_file_path: str) -> pd.DataFrame:
     """
@@ -27,7 +41,7 @@ def load_data(file_path : str, schema_file_path: str) -> pd.DataFrame:
     schema_file_path : location of schema file path 
     """
     try:
-        logging.info("Starting load data and return df for file path {file_path} from data_transformation")
+        logging.info(f"Starting load data and return df for file path {file_path} from data_transformation")
         dataset_schema = read_yaml_file(schema_file_path)
         schema = dataset_schema[SCHEMA_VALIDATION_COLUMNS_KEY]
         dataframe = pd.read_csv(file_path)
@@ -37,7 +51,7 @@ def load_data(file_path : str, schema_file_path: str) -> pd.DataFrame:
                 dataframe[column].astype(schema[column])
             else:
                 raise Exception(f"{column} not in schema")
-        logging.info("Successful load data for file path and return df {file_path} from data_transformation")
+        logging.info(f"Successful load data for file path and return df {file_path} from data_transformation")
         return dataframe
     except Exception as e:
         raise CustomException(e, sys) from e

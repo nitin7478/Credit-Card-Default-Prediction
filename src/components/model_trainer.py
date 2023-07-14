@@ -24,7 +24,7 @@ class EstimatorModel:
         which gaurantees that the inputs are in the same format as the training data
         At las it perfoem prediction on transformed data using trained_model_object
         """
-        transformed_feature = self.preprocessing_object(X)
+        transformed_feature = self.preprocessing_object.transform(X)
         return self.trained_model_object.predict(transformed_feature)
     def __repr__(self):
         return f"{type(self.trained_model_object).__name__}()"

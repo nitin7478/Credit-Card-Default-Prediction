@@ -133,10 +133,37 @@ class Configuration:
         logging.info(f"Model trainer Config : {model_trainer_config}")      
         return model_trainer_config  
     def get_model_evaluation_config(self) -> ModelEvaluationConfig:
-        pass
+        try:
+            model_evaluation_config = self.config_info[MODEL_EVALUATION_CONFIG_KEY]
+            artifact_dir = self.training_pipeline_config.artifact_dir
+            
+            model_evaluation_artifact_dir = os.path.join(artifact_dir , MODEL_EVALUATION_ARTIFACT_DIR)
+            
+            model_evaluation_file_path = os.path.join(model_evaluation_artifact_dir,
+                                                      model_evaluation_config[MODEL_EVALUATION_FILE_NAME_KEY])
+            
+            response = ModelEvaluationConfig(Model_evaluation_file_path=model_evaluation_file_path,
+                                             time_stamp=self.time_stamp)
+            
+            
+            logging.info(f"Model Evaluation Config : {response}")
+            return response
+        except Exception as e:
+            raise CustomException(e, sys) from e
     
     def get_model_pusher_config(self) -> ModelPusherConfig:
-        pass
+        try:
+            time_stamp = f"{datetime.now().strftime('%Y%m%d%H%M%S')}"
+            model_pusher_config_info = self.config_info[MODEL_PUSHER_CONFIG_KEY]
+            
+            export_dir_path = os.path.join(ROOT_DIR , model_pusher_config_info[MODEL_PUSHER_MODEL_EXPORT_DIR_KEY],
+                                           time_stamp)
+            
+            model_pusher_config = ModelPusherConfig(export_dir_path=export_dir_path)
+            logging.info(f"Model pusher config {ModelPusherConfig}")
+            return model_pusher_config
+        except Exception as e:
+            raise CustomException(e, sys) from e
     
     def get_training_pipeline_config(self) -> TrainingPipelineConfig:
         try:
@@ -153,7 +180,10 @@ class Configuration:
         except Exception as e:
             raise CustomException(e, sys) from e
 
-        
     def __del__(self):
         logging.info(f"{'>>'*20} Configuration log completed.{'<<'*20} \n\n")
-        
+
+
+
+
+

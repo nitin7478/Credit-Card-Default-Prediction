@@ -1,11 +1,12 @@
 from src.exception import CustomException
 from src.logger import logging
-import sys , yaml
+import sys , yaml,os
 from collections import namedtuple
 import numpy as np
 from sklearn.metrics import f1_score , accuracy_score
 from typing import List
 import importlib
+
 
 GRID_SEARCH_KEY = 'grid_search'
 MODULE_KEY = 'module'
@@ -36,7 +37,7 @@ MetricInfoArtifact = namedtuple("MetricInfoArtifact",
 
 
 
-def evaluate_classification_model(model_list: list, X_train:np.ndarray, y_train:np.ndarray, X_test:np.ndarray, y_test:np.ndarray, base_accuracy:float=0.6) -> MetricInfoArtifact:
+def evaluate_classification_model(model_list: list, X_train:np.ndarray, y_train:np.ndarray, X_test:np.ndarray, y_test:np.ndarray, base_accuracy:float) -> MetricInfoArtifact:
     """
     Description:
     This function compare multiple classification model return best model
@@ -54,18 +55,16 @@ def evaluate_classification_model(model_list: list, X_train:np.ndarray, y_train:
     MetricInfoArtifact = namedtuple("MetricInfo",
                                 ["model_name", "model_object", "train_f1_score", "test_f1_score", "train_accuracy",
                                  "test_accuracy", "model_accuracy", "index_number"])
-
     """
     try:
-        
-    
         index_number = 0
         metric_info_artifact = None
         for model in model_list:
             model_name = str(model)  #getting model name based on model object
             logging.info(f"{'>>'*30}Started evaluating model: [{type(model).__name__}] {'<<'*30}")
             
-            #Getting prediction for training and testing dataset
+            # Getting prediction for training and testing dataset
+            print(f"{model}")
             y_train_pred = model.predict(X_train)
             y_test_pred = model.predict(X_test)
 
@@ -88,8 +87,8 @@ def evaluate_classification_model(model_list: list, X_train:np.ndarray, y_train:
 
             logging.info(f"{'>>'*30} Loss {'<<'*30}")
             logging.info(f"Diff test train accuracy: [{diff_test_train_acc}].") 
-            logging.info(f"Train root mean squared error: [{train_f1_score}].")
-            logging.info(f"Test root mean squared error: [{test_f1_score}].")
+            logging.info(f"Train f1_score : [{train_f1_score}].")
+            logging.info(f"Test f1_score : [{test_f1_score}].")
 
 
             #if model accuracy is greater than base accuracy and train and test score is within certain thershold

@@ -40,7 +40,7 @@ class DataTransformation:
                 ])
             
             
-            '''
+            """
             We dont have categorical columns we are commenting this code
             categorical_columns = data_schema[CATEGORICAL_COLUMNS_KEY]
             cat_pipeline = Pipeline([
@@ -58,7 +58,7 @@ class DataTransformation:
             preprocessing = ColumnTransformer([
                 ('num_pipeline' , num_pipeline , numerical_columns),
             ])
-            '''
+            """
             return preprocessing
         except Exception as e:
             raise CustomException(e, sys) from e
