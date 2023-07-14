@@ -32,6 +32,8 @@ class EstimatorModel:
     def __str__(self):
         return f"{type(self.trained_model_object).__name__}()"
     
+    
+
 class ModelTrainer:
     def __init__(self , model_trainer_config: ModelTrainerConfig,
                  data_transformation_artifact:DataTransformationArtifact):
@@ -60,12 +62,14 @@ class ModelTrainer:
             model_config_file_path = self.model_trainer_config.model_config_file_path
             
             logging.info(f"Initializing model factory class using above model config file : {model_config_file_path}")
+            #Read model.yaml file from config folder, store in variable
             model_factory = ModelFactory(model_config_path = model_config_file_path)
             
             base_accuracy = self.model_trainer_config.base_accuracy
             logging.info(f"Expected accuracy : {base_accuracy}")
             
             logging.info(f"Initiating operation  model selection")
+            #Get one best model and list of all models with results , only on train dataset
             best_model = model_factory.get_best_model(X = x_train , y=y_train , base_accuracy=base_accuracy)
             
             logging.info(f"Best model found on training dataset: {best_model}")
@@ -78,22 +82,15 @@ class ModelTrainer:
             metric_info:MetricInfoArtifact = evaluate_classification_model(model_list = model_list ,\
             X_train = x_train , y_train= y_train , X_test = x_test , y_test = y_test , base_accuracy=base_accuracy)
             
-            logging.info(f"Best found model on both training and testing dataset.")
-            
-            logging.info(f"Extracting trained model list.")
-            grid_searched_best_model_list:List[GridSearchedBestModel]=model_factory.grid_searched_best_model_list
-            
-            model_list = [model.best_model for model in grid_searched_best_model_list ]
-            logging.info(f"Evaluation all trained model on training and testing dataset both")
-            metric_info:MetricInfoArtifact = evaluate_classification_model(model_list=model_list,X_train=x_train,y_train=y_train,X_test=x_test,y_test=y_test,base_accuracy=base_accuracy)
-
-            logging.info(f"Best found model on both training and testing dataset.")
-            
+            logging.info(f"Best found model on both training and testing dataset.")     
+                   
+            #Load the object preprocessingObject
             preprocessing_obj=  load_object(file_path=self.data_transformation_artifact.preprocessed_object_file_path)
             model_object = metric_info.model_object
 
-
+            #load trained model object
             trained_model_file_path=self.model_trainer_config.trained_model_file_path
+            #We will use estimatormodel only in production for live prediction
             estimator_model = EstimatorModel(preprocessing_object=preprocessing_obj,trained_model_object=model_object)
             logging.info(f"Saving model at path: {trained_model_file_path}")
             save_object(file_path=trained_model_file_path,obj=estimator_model)

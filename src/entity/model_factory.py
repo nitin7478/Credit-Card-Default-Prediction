@@ -94,6 +94,7 @@ def evaluate_classification_model(model_list: list, X_train:np.ndarray, y_train:
             #if model accuracy is greater than base accuracy and train and test score is within certain thershold
             #we will accept that model as accepted model
             if model_accuracy >= base_accuracy and diff_test_train_acc < 0.05:
+                #if base accuracy will update to model accuracy , any model comes below this accuracy , we wont accept
                 base_accuracy = model_accuracy
                 metric_info_artifact = MetricInfoArtifact(model_name=model_name,
                                                         model_object=model,
@@ -105,6 +106,7 @@ def evaluate_classification_model(model_list: list, X_train:np.ndarray, y_train:
                                                         index_number=index_number)
 
                 logging.info(f"Acceptable model found {metric_info_artifact}. ")
+            #if index_number 1 is returned and we can consider that, new model updated previous one
             index_number += 1
         if metric_info_artifact is None:
             logging.info(f"No model found with higher accuracy than base accuracy")
@@ -116,12 +118,15 @@ def evaluate_classification_model(model_list: list, X_train:np.ndarray, y_train:
 class ModelFactory:
     def __init__(self, model_config_path: str = None,):
         try:
+            # Read model.yaml file inside config folder
             self.config: dict = ModelFactory.read_params(model_config_path)
-
+            #module to import for GridSearchCV
             self.grid_search_cv_module: str = self.config[GRID_SEARCH_KEY][MODULE_KEY]
+            #class name GridSearchCV
             self.grid_search_class_name: str = self.config[GRID_SEARCH_KEY][CLASS_KEY]
+            #Read params for GridSearchCV
             self.grid_search_property_data: dict = dict(self.config[GRID_SEARCH_KEY][PARAM_KEY])
-
+            #Read different type of models in model_selection key and save in list
             self.models_initialization_config: dict = dict(self.config[MODEL_SELECTION_KEY])
 
             self.initialized_model_list = None
@@ -133,6 +138,7 @@ class ModelFactory:
     @staticmethod
     def update_property_of_class(instance_ref:object, property_data: dict):
         try:
+            #instance_ref is default attributes list , property_data is list from model.yaml
             if not isinstance(property_data, dict):
                 raise Exception("property_data parameter required to dictionary")
             print(property_data)
@@ -156,9 +162,11 @@ class ModelFactory:
     def class_for_name(module_name:str, class_name:str):
         try:
             # load the module, will raise ImportError if module cannot be loaded
+            #import the module and class
             module = importlib.import_module(module_name)
             # get the class, will raise AttributeError if class cannot be found
             logging.info(f"Executing command: from {module} import {class_name}")
+            #get all the default attributes
             class_ref = getattr(module, class_name)
             return class_ref
         except Exception as e:
@@ -179,19 +187,21 @@ class ModelFactory:
         try:
             # instantiating GridSearchCV class
             
-           
+           #import gridserach cv module
             grid_search_cv_ref = ModelFactory.class_for_name(module_name=self.grid_search_cv_module,
                                                              class_name=self.grid_search_class_name
                                                              )
-
+            #update gridsearchcv parameters such cv , estimator , and params_grid
             grid_search_cv = grid_search_cv_ref(estimator=initialized_model.model,
                                                 param_grid=initialized_model.param_grid_search)
+            #updated properties for gridsearch
             grid_search_cv = ModelFactory.update_property_of_class(grid_search_cv,
                                                                    self.grid_search_property_data)
 
             
             message = f'{">>"* 30} f"Training {type(initialized_model.model).__name__} Started." {"<<"*30}'
             logging.info(message)
+            #Perfoerm gridsearch cv operation for particular estimator
             grid_search_cv.fit(input_feature, output_feature)
             message = f'{">>"* 30} f"Training {type(initialized_model.model).__name__}" completed {"<<"*30}'
             grid_searched_best_model = GridSearchedBestModel(model_serial_number=initialized_model.model_serial_number,
@@ -201,6 +211,7 @@ class ModelFactory:
                                                              best_score=grid_search_cv.best_score_
                                                              )
             
+            #Return lists of all the models with scores and best_params_ , this is only performed on train dataset
             return grid_searched_best_model
         except Exception as e:
             raise CustomException(e, sys) from e
@@ -215,17 +226,19 @@ class ModelFactory:
             for model_serial_number in self.models_initialization_config.keys():
 
                 model_initialization_config = self.models_initialization_config[model_serial_number]
+                #import modele and class 
                 model_obj_ref = ModelFactory.class_for_name(module_name=model_initialization_config[MODULE_KEY],
                                                             class_name=model_initialization_config[CLASS_KEY]
                                                             )
                 model = model_obj_ref()
-                
+                #update parameter values from params key
                 if PARAM_KEY in model_initialization_config:
                     model_obj_property_data = dict(model_initialization_config[PARAM_KEY])
                     model = ModelFactory.update_property_of_class(instance_ref=model,
                                                                   property_data=model_obj_property_data)
-
+                #Read gridsearchparameters for module__
                 param_grid_search = model_initialization_config[SEARCH_PARAM_GRID_KEY]
+                #store model_name as e.g sklearn.linear_model.LogisticRegression
                 model_name = f"{model_initialization_config[MODULE_KEY]}.{model_initialization_config[CLASS_KEY]}"
 
                 model_initialization_config = InitializedModelDetail(model_serial_number=model_serial_number,
@@ -237,6 +250,7 @@ class ModelFactory:
                 initialized_model_list.append(model_initialization_config)
 
             self.initialized_model_list = initialized_model_list
+            
             return self.initialized_model_list
         except Exception as e:
             raise CustomException(e, sys) from e
@@ -267,6 +281,7 @@ class ModelFactory:
                                                               output_feature) -> List[GridSearchedBestModel]:
 
         try:
+            #Start grid search operations using initialized_model_list one by one using above function
             self.grid_searched_best_model_list = []
             for initialized_model_list in initialized_model_list:
                 grid_searched_best_model = self.initiate_best_parameter_search_for_initialized_model(
@@ -314,6 +329,7 @@ class ModelFactory:
     def get_best_model(self, X, y,base_accuracy=0.6) -> BestModel:
         try:
             logging.info("Started Initializing model from config file")
+            #get list of all the models from dict and store in list
             initialized_model_list = self.get_initialized_model_list()
             logging.info(f"Initialized model: {initialized_model_list}")
             grid_searched_best_model_list = self.initiate_best_parameter_search_for_initialized_models(
