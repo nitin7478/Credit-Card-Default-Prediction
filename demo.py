@@ -4,11 +4,14 @@ from src.logger import logging
 from src.config.configuration import Configuration
 from numba.core.errors import NumbaDeprecationWarning, NumbaPendingDeprecationWarning
 from src.components.data_validation import DataValidation
+import os
 
 def main(): 
-    try:
+    try:        
         pipeline = Pipeline()
-        pipeline.run_pipeline()
+        pipeline.start()
+        logging.info("main function execution completed")
+        pipeline.join()
         # a = Configuration().get_data_transformation_config()
         # print(a)
     except Exception as e:
@@ -17,3 +20,5 @@ def main():
     
 if __name__=="__main__":
     main()
+    
+

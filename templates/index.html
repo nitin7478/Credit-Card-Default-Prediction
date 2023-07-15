@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Credit Card Default Prediction</title>
+</head>
+
+<body>
+    <h1> Credit Card Default Prediction</h1>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 10px;
+            background-color: #508ef2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+    </style>
+    {% if current_accuracy %}
+    <h3> Last Model Trained On : {{ last_trained_model_date }} with accuracy : {{current_accuracy}} % </h3>
+    {% endif %}
+    {% if prediction_result %}
+    <h3>Prediction Result: {{ prediction_result }}</h3>
+    {% endif %}
+    <form action="/predict" method="post">
+        <form action="/predict" method="post">
+            <label for="ID">ID:</label>
+            <input type="text" id="ID" name="ID" value="6908" required><br>
+    
+            <label for="LIMIT_BAL">LIMIT_BAL:</label>
+            <input type="text" id="LIMIT_BAL" name="LIMIT_BAL" value="50000" required><br>
+    
+            <label for="SEX">SEX:</label>
+            <input type="text" id="SEX" name="SEX" value="1" required><br>
+    
+            <label for="EDUCATION">EDUCATION:</label>
+            <input type="text" id="EDUCATION" name="EDUCATION" value="2" required><br>
+    
+            <label for="MARRIAGE">MARRIAGE:</label>
+            <input type="text" id="MARRIAGE" name="MARRIAGE" value="2" required><br>
+    
+            <label for="AGE">AGE:</label>
+            <input type="text" id="AGE" name="AGE" value="46" required><br>
+    
+            <label for="PAY_0">PAY_0:</label>
+            <input type="text" id="PAY_0" name="PAY_0" value="-1" required><br>
+    
+            <label for="PAY_2">PAY_2:</label>
+            <input type="text" id="PAY_2" name="PAY_2" value="-1" required><br>
+    
+            <label for="PAY_3">PAY_3:</label>
+            <input type="text" id="PAY_3" name="PAY_3" value="-1" required><br>
+    
+            <label for="PAY_4">PAY_4:</label>
+            <input type="text" id="PAY_4" name="PAY_4" value="-1" required><br>
+    
+            <label for="PAY_5">PAY_5:</label>
+            <input type="text" id="PAY_5" name="PAY_5" value="0" required><br>
+    
+            <label for="PAY_6">PAY_6:</label>
+            <input type="text" id="PAY_6" name="PAY_6" value="0" required><br>
+    
+            <label for="BILL_AMT1">BILL_AMT1:</label>
+            <input type="text" id="BILL_AMT1" name="BILL_AMT1" value="1540" required><br>
+    
+            <label for="BILL_AMT2">BILL_AMT2:</label>
+            <input type="text" id="BILL_AMT2" name="BILL_AMT2" value="26060" required><br>
+    
+            <label for="BILL_AMT3">BILL_AMT3:</label>
+            <input type="text" id="BILL_AMT3" name="BILL_AMT3" value="0" required><br>
+    
+            <label for="BILL_AMT4">BILL_AMT4:</label>
+            <input type="text" id="BILL_AMT4" name="BILL_AMT4" value="2650" required><br>
+    
+            <label for="BILL_AMT5">BILL_AMT5:</label>
+            <input type="text" id="BILL_AMT5" name="BILL_AMT5" value="3320" required><br>
+    
+            <label for="BILL_AMT6">BILL_AMT6:</label>
+            <input type="text" id="BILL_AMT6" name="BILL_AMT6" value="2764" required><br>
+    
+            <label for="PAY_AMT1">PAY_AMT1:</label>
+            <input type="text" id="PAY_AMT1" name="PAY_AMT1" value="26060" required><br>
+    
+            <label for="PAY_AMT2">PAY_AMT2:</label>
+            <input type="text" id="PAY_AMT2" name="PAY_AMT2" value="0" required><br>
+    
+            <label for="PAY_AMT3">PAY_AMT3:</label>
+            <input type="text" id="PAY_AMT3" name="PAY_AMT3" value="3472" required><br>
+    
+            <label for="PAY_AMT4">PAY_AMT4:</label>
+            <input type="text" id="PAY_AMT4" name="PAY_AMT4" value="2320" required><br>
+    
+            <label for="PAY_AMT5">PAY_AMT5:</label>
+            <input type="text" id="PAY_AMT5" name="PAY_AMT5" value="1764" required><br>
+    
+            <label for="PAY_AMT6">PAY_AMT6:</label>
+            <input type="text" id="PAY_AMT6" name="PAY_AMT6" value="2841" required><br>
+    
+            <button type="submit">Predict</button> 
+        <style>
+            label {
+                display: block;
+                margin-bottom: 10px;
+                font-weight: bold;
+            }
+    
+            input[type="text"] {
+                width: 200px;
+                padding: 5px;
+                margin-bottom: 10px;
+            }
+    
+            button {
+                padding: 10px 20px;
+                background-color: #333;
+                color: #fff;
+                border: none;
+                cursor: pointer;
+            }
+
+            h3 {
+                margin-top: 20px;
+                color: #333;
+                text-align: center;
+            }
+
+        </style>
+    </form>
+    {% if prediction_result %}
+    <h3>Prediction Result: {{ prediction_result }}</h3>
+    {% endif %}
+</body>
+</html>

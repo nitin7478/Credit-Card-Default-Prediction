@@ -10,11 +10,16 @@ from src.components.model_evaluation import ModelEvaluation
 from src.components.model_trainer import ModelTrainer
 from src.components.model_pusher import ModelPusher
 import os ,sys
+from threading import Thread
+from collections import namedtuple
 
 
-class Pipeline:
-    def __init__(self, config:Configuration = Configuration())->None:
+# We will inherit Thread class in Pipeline, to achieve parallel processing of training 
+# to avoid page load delayin ui , we use thread, start pipeline and give response to user , training in progress
+class Pipeline(Thread):
+    def __init__(self, config:Configuration= Configuration())->None:
         try:
+            super().__init__(daemon=False , name="pipeline")
             self.config=config
         except Exception as e:
             raise CustomException(e, sys) from e
@@ -101,3 +106,9 @@ class Pipeline:
             logging.info("Pipeline completed.")
         except Exception as e:
             raise CustomException(e, sys) from e
+        
+    def run(self):
+        try:
+            self.run_pipeline()
+        except Exception as e:
+            raise CustomException(e, sys)

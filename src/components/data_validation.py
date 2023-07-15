@@ -7,6 +7,10 @@ from evidently.report import Report
 from evidently.metric_preset import DataDriftPreset, TargetDriftPreset, DataQualityPreset
 from src.util import read_yaml_file
 from src.constant import *
+from numba.core.errors import NumbaDeprecationWarning, NumbaPendingDeprecationWarning
+import warnings
+warnings.simplefilter('ignore', category=NumbaDeprecationWarning)
+warnings.simplefilter('ignore', category=NumbaPendingDeprecationWarning)
 
 import pandas as pd
 

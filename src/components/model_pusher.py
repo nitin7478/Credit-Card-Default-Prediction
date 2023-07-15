@@ -12,6 +12,7 @@ class ModelPusher:
             logging.info(f"{'>>'*30} Model Pusher log started.{'<<'*30}")
             self.model_pusher_config = model_pusher_config
             self.model_evaluation_artifact = model_evaluation_artifact
+
             
         except Exception as e:
             raise CustomException(e,sys) from e
@@ -31,7 +32,8 @@ class ModelPusher:
             logging.info(f"Trained model: {evaluated_model_path} is copied in export dir:[{export_model_file_path}]")
             
             model_pusher_artifact = ModelPusherArtifact(is_model_pusher= True,
-                                                        export_model_file_path=export_model_file_path)
+                                                        export_model_file_path=export_model_file_path,
+                                                        )
             logging.info(f"Model pusher artifact {model_pusher_artifact}")
             return model_pusher_artifact
         except Exception as e: 
