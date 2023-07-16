@@ -21,3 +21,13 @@ logging.basicConfig(
 # if __name__=="__main__":
 #     logging.info("Logging has started")
     
+
+# def get_latest_log_file_path():
+#     try:
+#         folder_name = list(map(int, os.listdir(model_dir)))
+#         latest_model_dir = os.path.join(model_dir, f"{max(folder_name)}")
+#         file_name = os.listdir(latest_model_dir)[0]
+#         latest_model_path = os.path.join(latest_model_dir, file_name)
+#         return latest_model_path
+#     except Exception as e:
+#         raise CustomException(e, sys) from e

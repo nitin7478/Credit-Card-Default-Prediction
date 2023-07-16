@@ -11,7 +11,20 @@ from sklearn.pipeline import Pipeline
 from src.util import read_yaml_file , save_object , save_numpy_array_data , load_data
 from src.constant import *
 from sklearn.compose import ColumnTransformer
+from sklearn.base import BaseEstimator , TransformerMixin
 import dill
+
+
+class ColumnRemover(BaseEstimator, TransformerMixin):
+    def __init__(self , columns = ['ID']):
+        self.columns = columns
+    
+    def fit(self, X , y=None):
+        return self
+    
+    def transform(self , X, y=None):
+        X.drop(columns = self.columns, inplace= True)
+        return X
 
 class DataTransformation:
     def __init__(self , data_transformation_config:DataTransformationConfig,
@@ -27,6 +40,8 @@ class DataTransformation:
             raise CustomException(e,sys) from e
     
             
+
+        
     def get_data_transformer_object(self)->Pipeline:
         try:
             schema_file_path  = self.data_validation_artifact.schema_file_path
@@ -34,7 +49,9 @@ class DataTransformation:
             
             numerical_columns = data_schema[NUMERICAL_COLUMNS_KEY]
             
+            
             preprocessing =  Pipeline(steps=[
+                ('Column Remover', ColumnRemover(columns=['ID'])),
                 ('imputer' , SimpleImputer(strategy='median')),
                 ('scaler',  StandardScaler())
                 ])
@@ -82,11 +99,15 @@ class DataTransformation:
             input_feature_train_df = train_df.drop(target_column , axis=1)
             target_feature_train_df = train_df[target_column]
             
+           
             input_feature_test_df = test_df.drop(target_column , axis=1)
             target_feature_test_df = test_df[target_column]
+            
+        
             logging.info(f"Applying preprocessing object on train and test dataframe and transforming data")
             input_feature_train_arr = preprocessing_obj.fit_transform(input_feature_train_df)
             input_feature_test_arr = preprocessing_obj.fit_transform(input_feature_test_df)
+            
             
             train_arr = np.c_[input_feature_train_arr , np.array(target_feature_train_df)]
             test_arr = np.c_[input_feature_test_arr , np.array(target_feature_test_df)]

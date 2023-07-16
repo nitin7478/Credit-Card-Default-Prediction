@@ -17,6 +17,7 @@ from collections import namedtuple
 # We will inherit Thread class in Pipeline, to achieve parallel processing of training 
 # to avoid page load delayin ui , we use thread, start pipeline and give response to user , training in progress
 class Pipeline(Thread):
+    RUNNING_STATUS = False
     def __init__(self, config:Configuration= Configuration())->None:
         try:
             super().__init__(daemon=False , name="pipeline")
@@ -87,6 +88,7 @@ class Pipeline(Thread):
     
     def run_pipeline(self, ):
         try:
+            RUNNING_STATUS = True
             # start data ingestion
             data_ingestion_artifact = self.start_data_ingestion()
             data_validation_artifact = self.start_data_validation(data_ingestion_artifact=data_ingestion_artifact)
@@ -104,6 +106,7 @@ class Pipeline(Thread):
             else:
                 logging.info("Trained model rejected.")
             logging.info("Pipeline completed.")
+            RUNNING_STATUS = False
         except Exception as e:
             raise CustomException(e, sys) from e
         

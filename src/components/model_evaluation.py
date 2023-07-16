@@ -63,7 +63,7 @@ class ModelEvaluation:
                     MODEL_PATH_KEY : model_evaluation_artifact.evaluated_model_path
                 }
             }
-            # model_history = dict()
+            model_history = dict()
         
             if previous_best_model is not None:
                 model_history = {self.model_evaluation_config.time_stamp : previous_best_model}
