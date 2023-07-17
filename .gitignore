@@ -9,7 +9,10 @@ __pycache__/
 # user defined
 logs/
 .logs
-src/artifact
+/src/cc_default_ml_nitin7478/src/artifact
+src/cc_default_ml_nitin7478/src/artifact
+/src/cc_default_ml_nitin7478/logs/
+src/cc_default_ml_nitin7478/logs
 
 
 # Distribution / packaging
