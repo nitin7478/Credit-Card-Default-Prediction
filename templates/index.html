@@ -64,7 +64,7 @@
         }
     </style>
     {% if current_accuracy %}
-    <h3>Last Model Trained On: {{ last_trained_model_date }} with accuracy: {{current_accuracy*100}}%</h3>
+    <h3>Last Best Model Trained On: {{ last_trained_model_date }} with accuracy: {{current_accuracy*100}}%</h3>
     {% endif %}
     {% if prediction_result %}
     <h3>Prediction Result: {{ prediction_result }}</h3>
@@ -73,7 +73,9 @@
     <form action="/trainer" class="btn-container"> 
         <button type = "submit">Re-Train Model</button>
     </form>
-
+    <!-- <form action="/get_log" class="btn-container"> 
+        <button type = "submit">View Last Log</button>
+    </form> -->
     <form action="/predict" id="creditCardForm" method="post">
         <div class="input-box">
             <label for="ID">ID:</label>

@@ -1,15 +1,11 @@
-from flask import Flask, render_template, request , jsonify, Response
+from flask import Flask, render_template, request
 from src.entity.predictor import Predictor
 import os,sys
 import pandas as pd
 from datetime import datetime
 import csv 
-from src.pipeline.pipeline import Pipeline
-from src.exception import CustomException
-import json , time
 from src.util.util import get_log_content
 import subprocess
-
 
 SAVED_MODELS_DIR_NAME = "saved_models"
 ROOT_DIR = os.getcwd()
@@ -25,24 +21,21 @@ def get_current_model_details(model_dir):
     args : model_dir:str
     params: current_accuracy:float
     """
-    try:
-        last_trained_model_date = None
-        current_accuracy = None
-        METRIC_INFO_FILE_PATH = os.path.join(ROOT_DIR, 'Current_Model_Metric_Info', 'metric_info.csv' )
-        if os.path.exists(METRIC_INFO_FILE_PATH):
-            line = list()
-            with open(METRIC_INFO_FILE_PATH, mode ='r') as file:
-                csv_file = csv.reader(file)
-                for lines in csv_file:
-                    line.append(lines)
-        current_accuracy = round(float(line[0][-2]),2)
-        if os.path.exists(model_dir):
-            latest_model_folder_name = Predictor.get_latest_model_path(model_dir=model_dir)
-            date_string = os.path.dirname(latest_model_folder_name).split("\\")[-1]
-            last_trained_model_date = datetime.strptime(date_string, "%Y%m%d%H%M%S")
-        return last_trained_model_date , current_accuracy
-    except Exception as e:
-        raise CustomException(e, sys) from e
+    last_trained_model_date = None
+    current_accuracy = None
+    METRIC_INFO_FILE_PATH = os.path.join(ROOT_DIR, 'Current_Model_Metric_Info', 'metric_info.csv' )
+    if os.path.exists(METRIC_INFO_FILE_PATH):
+        line = list()
+        with open(METRIC_INFO_FILE_PATH, mode ='r') as file:
+            csv_file = csv.reader(file)
+            for lines in csv_file:
+                line.append(lines)
+    current_accuracy = round(float(line[0][-2]),2)
+    if os.path.exists(model_dir):
+        latest_model_folder_name = Predictor.get_latest_model_path(model_dir=model_dir)
+        date_string = os.path.dirname(latest_model_folder_name).split("\\")[-1]
+        last_trained_model_date = datetime.strptime(date_string, "%Y%m%d%H%M%S")
+    return last_trained_model_date , current_accuracy
 
 @app.route('/')
 def home():
@@ -88,14 +81,22 @@ def trainer():
 @app.route('/start_trainer')
 def start_trainer():
     subprocess.run(["python", "demo.py"])
-    log_content = get_log_content()
+    log_content = get_log()
     return log_content
+
+@app.route('/get_log')
+def get_log():
+    log_content = get_log_content()
+    return render_template('get_log.html', logs=log_content )
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port=8000
+    host = '127.0.0.1'
+    print(f"Running the app on  http://{host}:{port}")
+    app.run(debug=True, host = host ,  port=port)
     
     
-
+    
     
 
