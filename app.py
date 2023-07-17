@@ -23,18 +23,22 @@ def get_current_model_details(model_dir):
     """
     last_trained_model_date = None
     current_accuracy = None
-    METRIC_INFO_FILE_PATH = os.path.join(ROOT_DIR, 'Current_Model_Metric_Info', 'metric_info.csv' )
+    line = list()
+    METRIC_INFO_FILE_PATH = os.path.join(ROOT_DIR, 'Current_Model_Metric_Info', 'Current_Model_Metric_Info.csv' )
     if os.path.exists(METRIC_INFO_FILE_PATH):
-        line = list()
         with open(METRIC_INFO_FILE_PATH, mode ='r') as file:
             csv_file = csv.reader(file)
             for lines in csv_file:
                 line.append(lines)
-    current_accuracy = round(float(line[0][-2]),2)
+        current_accuracy = round(float(line[0][-2]),2) *100
+    else:
+        current_accuracy = None
     if os.path.exists(model_dir):
         latest_model_folder_name = Predictor.get_latest_model_path(model_dir=model_dir)
         date_string = os.path.dirname(latest_model_folder_name).split("\\")[-1]
         last_trained_model_date = datetime.strptime(date_string, "%Y%m%d%H%M%S")
+    else:
+        last_trained_model_date = None
     return last_trained_model_date , current_accuracy
 
 @app.route('/')
@@ -62,15 +66,19 @@ def predict():
         input_row[feature] = [input_value]
     input_data = pd.DataFrame.from_dict(input_row)
     # Perform prediction using the loaded model
-    predictor = Predictor(model_dir=MODEL_DIR)
-    prediction = predictor.predict(input_data)
-    
-    
-    if prediction == 0:
-        result = 'Not Default'
+    if os.path.exists(MODEL_DIR):
+        predictor = Predictor(model_dir=MODEL_DIR)
+        prediction = predictor.predict(input_data)
     else:
-        result = 'Default'
-
+        prediction = None
+    
+    if prediction is not None:
+        if prediction == 0:
+            result = 'Not Default'
+        else:
+            result = 'Default'
+    else:
+        result = None
     return render_template('index.html', prediction_result=result )
 
 
@@ -81,22 +89,13 @@ def trainer():
 @app.route('/start_trainer')
 def start_trainer():
     subprocess.run(["python", "demo.py"])
-    log_content = get_log()
+    log_content = get_log_content()
     return log_content
 
-@app.route('/get_log')
-def get_log():
-    log_content = get_log_content()
-    return render_template('get_log.html', logs=log_content )
 
 
 if __name__ == '__main__':
-    port=8000
-    host = '127.0.0.1'
-    print(f"Running the app on  http://{host}:{port}")
-    app.run(debug=True, host = host ,  port=port)
-    
-    
+    app.run(debug=True)
     
     
 

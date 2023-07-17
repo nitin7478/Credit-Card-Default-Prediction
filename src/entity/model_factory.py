@@ -5,7 +5,7 @@ from collections import namedtuple
 import numpy as np
 from sklearn.metrics import f1_score , accuracy_score
 from typing import List
-import importlib
+import importlib ,csv
 
 
 GRID_SEARCH_KEY = 'grid_search'
@@ -57,6 +57,8 @@ def evaluate_classification_model(model_list: list, X_train:np.ndarray, y_train:
                                  "test_accuracy", "model_accuracy", "index_number"])
     """
     try:
+        METRIC_INFO_FILE_PATH = os.path.join(os.getcwd(), 'Current_Model_Metric_Info')
+        os.makedirs(METRIC_INFO_FILE_PATH , exist_ok=True)
         index_number = 0
         metric_info_artifact = None
         for model in model_list:
@@ -104,6 +106,9 @@ def evaluate_classification_model(model_list: list, X_train:np.ndarray, y_train:
                                                         test_accuracy=test_acc,
                                                         model_accuracy=model_accuracy,
                                                         index_number=index_number)
+                with open(f"{METRIC_INFO_FILE_PATH}/Current_Model_Metric_Info.csv" , 'w') as csv_file:
+                    writer = csv.writer(csv_file)
+                    writer.writerow(metric_info_artifact)
 
                 logging.info(f"Acceptable model found {metric_info_artifact}. ")
             #if index_number 1 is returned and we can consider that, new model updated previous one

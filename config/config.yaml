@@ -16,7 +16,7 @@ data_validation_config:
   schema_file_name: schema.yaml 
   report_file_name: report.json 
   report_page_file_name: report.html
-  data_drift_check_old_period : 10 # input for datadrift check n number of old folders back
+  data_drift_check_old_period : 0 # input for datadrift check n number of old folders back
 
 data_transformation_config:
   transformed_dir: transformed_data

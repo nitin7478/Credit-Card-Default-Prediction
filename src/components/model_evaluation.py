@@ -130,13 +130,9 @@ class ModelEvaluation:
                                                                y_test=test_target_arr,
                                                                base_accuracy=self.model_trainer_artifact.model_accuracy,
                                                                )
+            
             logging.info(f"Model evaluation completed. model metric artifact: {metric_info_artifact}")
-            metric_info_path = os.path.join(ROOT_DIR , 'Current_Model_Metric_Info')
-            os.makedirs(metric_info_path , exist_ok=True)
-            if metric_info_artifact is not None:
-                with open(f"{metric_info_path}/metric_info.csv" , 'w') as csv_file:
-                    writer = csv.writer(csv_file)
-                    writer.writerow(metric_info_artifact)
+            
             
             if metric_info_artifact is None:
                 response = ModelEvaluationArtifact(is_model_accepted=False,

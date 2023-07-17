@@ -63,19 +63,18 @@
             margin-top: 20px;
         }
     </style>
-    {% if current_accuracy %}
-    <h3>Last Best Model Trained On: {{ last_trained_model_date }} with accuracy: {{current_accuracy*100}}%</h3>
+    {% if last_trained_model_date and current_accuracy%}
+    <h3>Last Best Model Trained On: {{ last_trained_model_date }} with accuracy: {{current_accuracy}}%</h3>
     {% endif %}
-    {% if prediction_result %}
-    <h3>Prediction Result: {{ prediction_result }}</h3>
+    {% if last_trained_model_date is none %}
+    <h3>Trained model Not available kindly train the model by clicking button below</h3>
     {% endif %}
-    
+
+
+   
     <form action="/trainer" class="btn-container"> 
         <button type = "submit">Re-Train Model</button>
     </form>
-    <!-- <form action="/get_log" class="btn-container"> 
-        <button type = "submit">View Last Log</button>
-    </form> -->
     <form action="/predict" id="creditCardForm" method="post">
         <div class="input-box">
             <label for="ID">ID:</label>
@@ -204,9 +203,10 @@
             <button type="button" onclick="fillSampleNotDefaultData()">Fill Sample Not Default Data</button>
         </div>
     </form>
-
-    {% if prediction_result %}
-    <h3>Prediction Result: {{ prediction_result }}</h3>
+    {% if prediction_result  %}
+    <h2>Prediction Result: {{ prediction_result }}</h2>
+    {% elif prediction_result is none %}
+    <h3>Trained model Not available kindly train the model , click button Re-Train Model</h3>
     {% endif %}
     <form action="/">
         <div class="btn-container">

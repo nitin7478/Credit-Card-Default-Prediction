@@ -3,7 +3,7 @@ from typing import List
 
 #Declaring variables for setup functions
 PROJECT_NAME="Credit Card Default Prediction"
-VERSION="0.0.1"
+VERSION="0.0.2"
 AUTHOR="Nitin Udmale"
 DESRCIPTION="This is my first Modular Coding Project"
 
