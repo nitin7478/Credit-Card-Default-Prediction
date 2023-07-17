@@ -95,7 +95,10 @@ def start_trainer():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    host = "127.0.0.1"
+    port = 8000
+    print(f"Web app started on http://{host}:{port}")
+    app.run(debug=True , host = host , port = port)
     
     
 
