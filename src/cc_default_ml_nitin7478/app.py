@@ -35,7 +35,7 @@ def get_current_model_details(model_dir):
         current_accuracy = None
     if os.path.exists(model_dir):
         latest_model_folder_name = Predictor.get_latest_model_path(model_dir=model_dir)
-        date_string = os.path.dirname(latest_model_folder_name).split("\\")[-1]
+        date_string = os.path.basename(os.path.dirname(latest_model_folder_name))
         last_trained_model_date = datetime.strptime(date_string, "%Y%m%d%H%M%S")
     else:
         last_trained_model_date = None

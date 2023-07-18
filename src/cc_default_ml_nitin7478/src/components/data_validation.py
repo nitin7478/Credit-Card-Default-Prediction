@@ -41,10 +41,19 @@ class DataValidation:
             ## Scenario wew are running program for every n days , user specify n number or folders back
             if number_of_n_runs_old is not None or number_of_n_runs_old >=1:
                 new_raw_file_path = self.data_ingestion_artifact.raw_file_path
+        
                 number_of_n_runs_old = - (abs(number_of_n_runs_old)+1)
-                remains = ("\\").join(new_raw_file_path.split("\\")[-2:])
-                paths = ("\\").join(new_raw_file_path.split("\\")[:-3])
     
+                new_raw_file_path = new_raw_file_path.replace('\\', '/')
+                # remains = ("/").join(new_raw_file_path.split("/")[-2:])
+                
+                # paths = ("\\").join(new_raw_file_path.split("/")[:-3])
+                
+                path_components = new_raw_file_path.split("/")
+                paths = os.path.normpath("/".join(path_components[:-3]))
+                remains = os.path.normpath("/".join(path_components[-2:]))
+                
+                
                 old_file_path = None
                 
                 if len(list(os.listdir(paths))) >= abs(number_of_n_runs_old):
@@ -102,8 +111,10 @@ class DataValidation:
                 training_file = self.data_ingestion_artifact.train_file_path
                 test_file = self.data_ingestion_artifact.test_file_path
                 message = f"Traning file : {training_file} or testing file : {test_file} is not present"
-                raise Exception(message)
-            return is_available
+                logging.error(message)
+                return is_available
+            else:
+                return is_available
         except Exception as e:
             raise CustomException(e,sys) from e
     
@@ -128,12 +139,13 @@ class DataValidation:
                 return is_schema_validation_successful
             else:
                 logging.error(f"Schema validation not successful")
-                raise Exception(f"Schema validation not successful")
+                return is_schema_validation_successful
         except Exception as e:
             raise CustomException(e,sys) from e
         
     def is_data_drift_found(self)->bool:
         try:
+            is_data_drift_found = False
             logging.info(f"Starting data drift check ")
             report = self.save_data_drift_report()
             self.save_data_drift_report_page()
@@ -141,7 +153,8 @@ class DataValidation:
             if is_data_drift_found==False:
                 logging.info(f"Data drift check successfull.No data drift found")
             else:
-                raise Exception(f"Data drift found in train and test dataset")
+                is_data_drift_found = True
+                logging.info(f"Data drift found in train and test dataset")
             return is_data_drift_found
         except Exception as e:
             raise CustomException(e,sys) from e
