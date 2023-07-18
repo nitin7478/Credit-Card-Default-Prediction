@@ -95,10 +95,10 @@ def start_trainer():
 
 
 if __name__ == '__main__':
-    port = 8000
-    host = "127.0.0.1"
-    print(f"Web app running on http://{host}:{port}")
-    app.run(debug=True , host = host , port=port)
+    # port = 8000
+    # host = "127.0.0.1"
+    # app.run(debug=True , host = host , port=port)
+    app.run()
     
     
 
