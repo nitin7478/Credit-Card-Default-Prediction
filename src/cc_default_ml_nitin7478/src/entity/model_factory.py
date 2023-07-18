@@ -37,7 +37,7 @@ MetricInfoArtifact = namedtuple("MetricInfoArtifact",
 
 
 
-def evaluate_classification_model(model_list: list, X_train:np.ndarray, y_train:np.ndarray, X_test:np.ndarray, y_test:np.ndarray, base_accuracy:float) -> MetricInfoArtifact:
+def evaluate_classification_model(model_list: list, X_train, y_train:np.ndarray, X_test, y_test:np.ndarray, base_accuracy:float) -> MetricInfoArtifact:
     """
     Description:
     This function compare multiple classification model return best model
@@ -61,6 +61,7 @@ def evaluate_classification_model(model_list: list, X_train:np.ndarray, y_train:
         os.makedirs(METRIC_INFO_FILE_PATH , exist_ok=True)
         index_number = 0
         metric_info_artifact = None
+        print(f"X_train shape : {X_train.shape}  , X_test shape : {X_test.shape}")
         for model in model_list:
             model_name = str(model)  #getting model name based on model object
             logging.info(f"{'>>'*30}Started evaluating model: [{type(model).__name__}] {'<<'*30}")

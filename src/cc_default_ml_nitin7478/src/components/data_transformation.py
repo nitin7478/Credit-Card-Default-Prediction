@@ -15,16 +15,6 @@ from sklearn.base import BaseEstimator , TransformerMixin
 import dill
 
 
-class ColumnRemover(BaseEstimator, TransformerMixin):
-    def __init__(self , columns = ['ID']):
-        self.columns = columns
-    
-    def fit(self, X , y=None):
-        return self
-    
-    def transform(self , X, y=None):
-        X.drop(columns = self.columns, inplace= True)
-        return X
 
 class DataTransformation:
     def __init__(self , data_transformation_config:DataTransformationConfig,
@@ -51,7 +41,6 @@ class DataTransformation:
             
             
             preprocessing =  Pipeline(steps=[
-                ('Column Remover', ColumnRemover(columns=['ID'])),
                 ('imputer' , SimpleImputer(strategy='median')),
                 ('scaler',  StandardScaler())
                 ])
@@ -96,13 +85,12 @@ class DataTransformation:
             schema = read_yaml_file(schema_file_path)
             target_column = schema[TARGET_COLUMN_KEY]
             logging.info(f"Splitting input and target feature from train and test dataframe")
-            input_feature_train_df = train_df.drop(target_column , axis=1)
+            input_feature_train_df = train_df.drop([target_column ,'ID'], axis=1)
             target_feature_train_df = train_df[target_column]
-            
+            # We will drop column 'ID' as its of not use for model 
            
-            input_feature_test_df = test_df.drop(target_column , axis=1)
+            input_feature_test_df = test_df.drop([target_column,'ID'], axis=1)
             target_feature_test_df = test_df[target_column]
-            
         
             logging.info(f"Applying preprocessing object on train and test dataframe and transforming data")
             input_feature_train_arr = preprocessing_obj.fit_transform(input_feature_train_df)

@@ -1,13 +1,13 @@
 from src.logger import logging
 from src.exception import CustomException
 from src.entity.config_entity import ModelEvaluationConfig
-from src.entity.artifact_entity import ModelTrainerArtifact, DataIngestionArtifact, DataValidationArtifact
+from src.entity.artifact_entity import ModelTrainerArtifact, DataIngestionArtifact,DataValidationArtifact 
 from src.entity.artifact_entity import ModelEvaluationArtifact
 from src.entity.model_factory import evaluate_classification_model
 
 from src.constant import *
 import numpy as np
-from src.util import write_yaml_file, read_yaml_file, load_object, load_data
+from src.util import write_yaml_file, read_yaml_file, load_object, load_data , load_numpy_array_data
 import sys, os
 import csv
 
@@ -15,13 +15,15 @@ class ModelEvaluation:
     def __init__(self, model_evaluation_config:ModelEvaluationConfig,
                 data_ingestion_artifact:DataIngestionArtifact ,
                 data_validation_artifact:DataValidationArtifact,
-                model_trainer_artifact:ModelTrainerArtifact) -> None:
+                model_trainer_artifact:ModelTrainerArtifact,
+                ) -> None:
         try:
             logging.info(f"{'>>'*30} Model  evaluation log started")
             self.model_evaluation_config = model_evaluation_config
             self.data_ingestion_artifact = data_ingestion_artifact
             self.data_validation_artifact = data_validation_artifact
             self.model_trainer_artifact = model_trainer_artifact
+        
         except Exception as e:
             raise CustomException(e,sys) from e
         
@@ -42,6 +44,7 @@ class ModelEvaluation:
                 return model
             
             model = load_object(file_path=model_eval_file_content[BEST_MODEL_KEY][MODEL_PATH_KEY])
+            logging.info(f"Returning last best model information from model_evaluation.yaml file {model}")
             return model
         except Exception as e:
             raise CustomException(e,sys) from e
@@ -99,6 +102,7 @@ class ModelEvaluation:
             schema_content = read_yaml_file(file_path=schema_file_path)
             target_column_name = schema_content[TARGET_COLUMN_KEY]
 
+
             # target_column
             logging.info(f"Converting target column into numpy array.")
             train_target_arr = np.array(train_dataframe[target_column_name])
@@ -107,12 +111,13 @@ class ModelEvaluation:
 
             # dropping target column from the dataframe
             logging.info(f"Dropping target column from the dataframe.")
-            train_dataframe.drop(target_column_name, axis=1, inplace=True)
-            test_dataframe.drop(target_column_name, axis=1, inplace=True)
+            train_dataframe.drop([target_column_name, 'ID'], axis=1, inplace=True)
+            test_dataframe.drop([target_column_name, 'ID'], axis=1, inplace=True)
             logging.info(f"Dropping target column from the dataframe completed.")
-
+            
+    
             model = self.get_best_model()
-
+    
             if model is None:
                 logging.info("Not found any existing model. Hence accepting trained model")
                 model_evaluation_artifact = ModelEvaluationArtifact(evaluated_model_path=trained_model_file_path,
@@ -120,9 +125,9 @@ class ModelEvaluation:
                 self.update_evaluation_report(model_evaluation_artifact)
                 logging.info(f"Model accepted. Model eval artifact {model_evaluation_artifact} created")
                 return model_evaluation_artifact
-
+            
             model_list = [model, trained_model_object]
-
+            
             metric_info_artifact = evaluate_classification_model(model_list=model_list,
                                                                X_train=train_dataframe,
                                                                y_train=train_target_arr,

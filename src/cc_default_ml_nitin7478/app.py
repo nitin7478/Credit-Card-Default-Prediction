@@ -50,7 +50,7 @@ def home():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    features = ['ID','LIMIT_BAL', 'SEX', 'EDUCATION', 'MARRIAGE', 'AGE', 'PAY_0',
+    features = ['LIMIT_BAL', 'SEX', 'EDUCATION', 'MARRIAGE', 'AGE', 'PAY_0',
                 'PAY_2', 'PAY_3', 'PAY_4', 'PAY_5', 'PAY_6', 'BILL_AMT1',
                 'BILL_AMT2', 'BILL_AMT3', 'BILL_AMT4', 'BILL_AMT5', 'BILL_AMT6',
                 'PAY_AMT1', 'PAY_AMT2', 'PAY_AMT3', 'PAY_AMT4', 'PAY_AMT5', 'PAY_AMT6']
@@ -90,15 +90,16 @@ def trainer():
 def start_trainer():
     subprocess.run(["python", "demo.py"])
     log_content = get_log_content()
-    return log_content
+    return render_template('start_trainer.html', logs=log_content)
 
 
 
 if __name__ == '__main__':
-    # port = 8000
-    # host = "127.0.0.1"
-    # app.run(debug=True , host = host , port=port)
-    app.run()
+    port = 8000
+    host = "127.0.0.1"
+    print(f"Flask web app running on http://{host}:{port}")
+    app.run(debug=True , host = host , port=port)
+    
     
     
 

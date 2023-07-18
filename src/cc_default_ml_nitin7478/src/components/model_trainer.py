@@ -54,7 +54,7 @@ class ModelTrainer:
             logging.info(f"Loading transformed testing dataset")
             transformed_test_file_path = self.data_transformation_artifact.transformed_test_file_path
             test_array = load_numpy_array_data(transformed_test_file_path)
-            
+        
             logging.info(f"Splitting transformed and testing input and target feature")
             x_train, y_train , x_test , y_test = train_array[:,:-1] , train_array[:,-1],test_array[:,:-1], test_array[:,-1]
             
@@ -67,7 +67,7 @@ class ModelTrainer:
             
             base_accuracy = self.model_trainer_config.base_accuracy
             logging.info(f"Expected accuracy : {base_accuracy}")
-            
+            print(f"X_train_shape in model trainer : {x_train.shape}")
             logging.info(f"Initiating operation  model selection")
             #Get one best model and list of all models with results , only on train dataset
             best_model = model_factory.get_best_model(X = x_train , y=y_train , base_accuracy=base_accuracy)
@@ -79,8 +79,10 @@ class ModelTrainer:
             
             model_list = [model.best_model for model in grid_searched_best_model_list]
             logging.info(f"Evaluation all trained model on training and testing dataset both")
+            
             metric_info:MetricInfoArtifact = evaluate_classification_model(model_list = model_list ,\
             X_train = x_train , y_train= y_train , X_test = x_test , y_test = y_test , base_accuracy=base_accuracy)
+            
             
             logging.info(f"Best found model on both training and testing dataset.")     
                    
@@ -113,9 +115,6 @@ class ModelTrainer:
             
             
             
-            
-             
-            
-        except Exception as e:
-            raise CustomException(e , sys) from e
+    def __del__(self):
+        logging.info(f"{'=' * 20}Model Trainer log completed.{'=' * 20} ")
         

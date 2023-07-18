@@ -69,13 +69,7 @@
     <h2>After Completion, logs will be displayed on the page.</h2>
     <h2>Even if page is closed or refreshed, pipeline will keep running in background</h2>
     <h2>If you dont want to see logs click on button below to route to homepage</h2>
-    <div id="logBox">
-        <ul id="logList">
-            {% for log in logs %}
-                <li>{{ log }}</li>
-            {% endfor %}
-        </ul>
-    </div>
+    
     <form action="/start_trainer">
         <button type="submit">Start Trainer</button>
     </form>
