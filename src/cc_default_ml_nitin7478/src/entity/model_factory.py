@@ -61,13 +61,13 @@ def evaluate_classification_model(model_list: list, X_train, y_train:np.ndarray,
         os.makedirs(METRIC_INFO_FILE_PATH , exist_ok=True)
         index_number = 0
         metric_info_artifact = None
-        print(f"X_train shape : {X_train.shape}  , X_test shape : {X_test.shape}")
+
         for model in model_list:
             model_name = str(model)  #getting model name based on model object
             logging.info(f"{'>>'*30}Started evaluating model: [{type(model).__name__}] {'<<'*30}")
             
             # Getting prediction for training and testing dataset
-            print(f"{model}")
+        
             y_train_pred = model.predict(X_train)
             y_test_pred = model.predict(X_test)
 

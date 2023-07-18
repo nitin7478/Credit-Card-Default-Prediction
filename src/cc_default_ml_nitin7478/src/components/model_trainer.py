@@ -67,7 +67,7 @@ class ModelTrainer:
             
             base_accuracy = self.model_trainer_config.base_accuracy
             logging.info(f"Expected accuracy : {base_accuracy}")
-            print(f"X_train_shape in model trainer : {x_train.shape}")
+            
             logging.info(f"Initiating operation  model selection")
             #Get one best model and list of all models with results , only on train dataset
             best_model = model_factory.get_best_model(X = x_train , y=y_train , base_accuracy=base_accuracy)

@@ -39,44 +39,50 @@ class DataValidation:
         try:
             is_data_drift_found = False
             ## Scenario wew are running program for every n days , user specify n number or folders back
-            number_of_n_runs_old = - abs(number_of_n_runs_old)
-            
-            logging.info(f"converting new and old dataset of {number_of_n_runs_old} folders before , into dataframe")
-            new_raw_file_path = self.data_ingestion_artifact.raw_file_path
-            logging.info(f"Reading new excel file: [{new_raw_file_path}]")
-            new_df = pd.read_excel(new_raw_file_path , skiprows=1)
-            remains = ("\\").join(new_raw_file_path.split("\\")[-2:])
-            paths = ("\\").join(new_raw_file_path.split("\\")[:-3])
-            
-            old_file_path = None
-            if len(list(os.listdir(paths))) > abs(number_of_n_runs_old):
-                old_date = str(os.listdir(paths)[number_of_n_runs_old])
-                old_file_path = os.path.join(paths,old_date, remains)
+            if number_of_n_runs_old is not None or number_of_n_runs_old >=1:
+                new_raw_file_path = self.data_ingestion_artifact.raw_file_path
+                number_of_n_runs_old = - (abs(number_of_n_runs_old)+1)
+                remains = ("\\").join(new_raw_file_path.split("\\")[-2:])
+                paths = ("\\").join(new_raw_file_path.split("\\")[:-3])
+    
+                old_file_path = None
                 
-                logging.info(f"Reading new excel file: [{old_file_path} of date :{old_date} \
-                which is {number_of_n_runs_old} folders back]")
-                if os.path.exists(old_file_path):
-                    old_df = pd.read_excel(old_file_path , skiprows=1)
-                drift_report = Report(metrics=[DataDriftPreset(), TargetDriftPreset()])
-                drift_report.run(reference_data=old_df, current_data=new_df)
-                report = json.loads(drift_report.json())
+                if len(list(os.listdir(paths))) >= abs(number_of_n_runs_old):
+                    old_date = str(os.listdir(paths)[number_of_n_runs_old])
+                    old_file_path = os.path.join(paths,old_date, remains)
                 
-                is_data_drift_found = report['metrics'][0]['result']['dataset_drift']
-                if is_data_drift_found==False:
-                    logging.info(f"Old and new dataset Data drift check successfull. No data drift found")
-                else:
-                    raise Exception(f"Old and new dataset Data drift found")
-                return is_data_drift_found
-                # raise Exception("Old period raw file is missing,kindly disable old new dataset data drift check function")
+                    logging.info(f"Reading new excel file and convert to dataframe: [{new_raw_file_path}]")
+                    new_df = pd.read_excel(new_raw_file_path , skiprows=1)
+        
+                    logging.info(f"Reading old raw excel file: [{old_file_path} of date :{old_date} \
+                    which is {abs(number_of_n_runs_old)-1} folders back]")
+                    if os.path.exists(old_file_path):
+                        old_df = pd.read_excel(old_file_path , skiprows=1)
+                        logging.info(f"Old raw excel file read and convert successfull")
+                        drift_report = Report(metrics=[DataDriftPreset(), TargetDriftPreset()])
+                        drift_report.run(reference_data=old_df, current_data=new_df)
+                        report = json.loads(drift_report.json())
+                        
+                        is_data_drift_found = report['metrics'][0]['result']['dataset_drift']
+                        if is_data_drift_found==False:
+                            logging.info(f"Old and new dataset Data drift check successfull. No data drift found")
+                        else:
+                            raise Exception(f"Old and new dataset Data drift found")
+                        return is_data_drift_found
+                        # raise Exception("Old period raw file is missing,kindly disable old new dataset data drift check function")
+                    else:
+                        logging.info("Old period raw files for data drift not found, kindly check old files or update key data_drift_check_old_period in config.yaml file for temporary basis")
+                        print("Old period raw files for data drift not found, kindly check old files or update key data_drift_check_old_period in config.yaml file for temporary basis")
+                    return is_data_drift_found
             else:
-                logging.error("Old period raw files for data drift not found, kindly check old files or update key data_drift_check_old_period in config.yaml file for temporary basis")
-                print("Old period raw files for data drift not found, kindly check old files or update key data_drift_check_old_period in config.yaml file for temporary basis")
-            return is_data_drift_found
+                logging.info("Old period for Data drift check is None or Zero")
+                print("Old period for Data drift check is None or Zero")
+                return is_data_drift_found
         except Exception as e :
             raise CustomException(e, sys) from e
         
     
-        
+     
     def is_train_test_file_exists(self)->bool:
         try:
             logging.info("Checking if train and test file exists")
@@ -104,7 +110,7 @@ class DataValidation:
     def validate_dataset_schema(self)->bool:
         try:
             logging.info(f"starting schema data validation")
-            validation_status = False
+            is_schema_validation_successful = False
             train_df, test_df = self.get_train_test_dataframe()
             if os.path.exists(self.data_validation_config.schema_file_path):
                 schema_config = read_yaml_file(self.data_validation_config.schema_file_path)
@@ -117,11 +123,12 @@ class DataValidation:
             test_schema_dataframe = dict(zip(test_df.columns , test_data_columns_list))
             is_schema_validation_successful = schema_config[SCHEMA_VALIDATION_COLUMNS_KEY] == train_schema_dataframe \
                 and schema_config[SCHEMA_VALIDATION_COLUMNS_KEY] == test_schema_dataframe
-            if is_schema_validation_successful:
-                logging.info(f"is schema validated : {is_schema_validation_successful}")
+            if is_schema_validation_successful==True:
+                logging.info(f"is schema validated successful : {is_schema_validation_successful}")
+                return is_schema_validation_successful
             else:
+                logging.error(f"Schema validation not successful")
                 raise Exception(f"Schema validation not successful")
-            return is_schema_validation_successful
         except Exception as e:
             raise CustomException(e,sys) from e
         
@@ -187,10 +194,18 @@ class DataValidation:
     def initiate_data_validation(self)-> DataValidationArtifact:
         try:
             
-            self.is_train_test_file_exists()
-            self.is_data_drift_found()
-            self.is_old_new_raw_dataset_datadrift_found(self.data_validation_config.data_drift_check_old_period)
+            is_train_test_file_exists = self.is_train_test_file_exists()
+            is_data_drift_found = self.is_data_drift_found() 
+            is_old_new_raw_dataset_datadrift_found = self.is_old_new_raw_dataset_datadrift_found(self.data_validation_config.data_drift_check_old_period)
             is_validated = self.validate_dataset_schema()
+            if is_train_test_file_exists==True and is_data_drift_found==False:
+                if is_old_new_raw_dataset_datadrift_found== False and is_validated==True:
+                    is_validated = True
+                    logging.info(f"All data validations successful")
+            else:
+                is_validated = False
+                logging.info(f"error in data validation")
+                raise Exception("error in data validation")
             data_validation_artifact = DataValidationArtifact(
                 schema_file_path=self.data_validation_config.schema_file_path,
                 report_file_path=self.data_validation_config.report_file_path,
