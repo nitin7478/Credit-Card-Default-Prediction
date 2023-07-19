@@ -29,9 +29,33 @@
    python -m pip install dist/example_package_YOUR_USERNAME_HERE-0.0.1-py3-none-any.whl
    
    
-7. Main project is inside 
+7. Overview : 
    ```bash
-    /src/cc_default_ml_nitin7478/
+   Main project folder : /src/cc_default_ml_nitin7478/
+   Flask web app file  : /src/cc_default_ml_nitin7478/app.py
+   Flask web app file  : /src/cc_default_ml_nitin7478/pipeline.py
+
+## Usage 
+* Overview : 
+   ```bash
+   Main project folder      : /src/cc_default_ml_nitin7478/
+   Flask web app file       : /src/cc_default_ml_nitin7478/app.py
+   To train pipeline/model  : /src/cc_default_ml_nitin7478/pipeline.py
+* Precautions : For first training pipeline in new system or new docker image 
+Precautions if user wants to train model pipeline in new system or docker image to avoid path conflicts.(For the first time training Only)
+   ```bash
+   Delete below mention folders to train model pipeline in new system.
+       /src/cc_default_ml_nitin7478/src/artifact
+       /src/cc_default_ml_nitin7478/Current_Model_Metric_Info
+   ```
+## Configuration
+Three main config files are present in /src/cc_default_ml_nitin7478/config/ folder.
+1. config.yaml : It contains all the project related config details
+2. model.yaml : It contains all model training related details.
+3. chema.yaml : It containes schema of the dataset for validation purpose
+
+## Dataset
+The dataset used in this project can be found at [Dataset Link](https://archive.ics.uci.edu/static/public/350/default+of+credit+card+clients.zip).
 
 ## Project Structure
 ```bash
@@ -92,6 +116,16 @@ Credit-Card-Default-Prediction/
 
 ```
 
+## Features
+* On one click or command to start training pipeline, pipeline will performe below tasks in que.We can call these tasks as components of pipeline.
+1. Data Ingestion : First current data,zip file , will be downloaded from given link and it will be extracted as raw data , then it will be splitted into training and test dataset. All the artifacts will be stored in data_ingestion folder.
+2. Data Validation : Schema validation and data drift task will be performed in this component. We will be using evidently library to genrate data drift reports.All the artifacts will be stored in data_validation folder.
+3. Data Transformation : Validated data will be transformed using preprocessing object as per project need.All the artifacts will be stored in data_transformation folder.
+4. Model Trainer : Read the model.yaml file and perfomed model training using GridSearchCV, and store the best performing model object with preprocessing object, in single object,  in trained_model folder inside model_trainer artifact folder.
+5. Model Evaluation : Evaulate the best performing model from previously , model_trainer artifact , with current model in production is any. If current trained model is better than previous model , replace previous with current model. We will keep best performing model. All the artifacts will be stored in Model_evaluation folder as model_evaluation.yaml. Then export the final model to src/saved_models folder for production.
+* To experiment with model training parameters use , model.yaml file in src/config folder.
+
+
 ## Product Description
 
 The Credit Card Default Prediction project aims to develop a machine learning model that predicts whether a person will default on their credit card payment. The model utilizes historical payment data and various explanatory variables to make accurate predictions, helping financial institutions assess credit risk and make informed decisions.
@@ -123,15 +157,7 @@ The project follows a comprehensive approach that involves data preprocessing, f
 - Explainable Predictions: The project incorporates interpretability techniques to explain the model's predictions and gain insights into contributing factors.
 - Easy Integration: The trained model can be seamlessly integrated into existing systems for real-time credit evaluation.
 
-### Getting Started
 
-Follow the installation procedure provided in the README to set up the project environment. You can then use the model for predicting credit card defaults and fine-tune the model for your specific use case.
-
-### Usage
-
-- Train the model using historical credit card payment data.
-- Evaluate the model's performance using appropriate evaluation metrics.
-- Deploy the model to predict default scenarios in real-time.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
