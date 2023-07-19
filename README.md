@@ -3,7 +3,7 @@
 
 ## Installation Procedure
 ```bash
-           Installation Reference : https://packaging.python.org/en/latest/tutorials/packaging-projects/
+Installation Reference : https://packaging.python.org/en/latest/tutorials/packaging-projects/
 ```
 1. Create a New Conda Environment:
    ```bash
@@ -41,13 +41,14 @@
    Main project folder      : /src/cc_default_ml_nitin7478/
    Flask web app file       : /src/cc_default_ml_nitin7478/app.py
    To train pipeline/model  : /src/cc_default_ml_nitin7478/pipeline.py
-* Precautions : For first training pipeline in new system or new docker image 
-Precautions if user wants to train model pipeline in new system or docker image to avoid path conflicts.(For the first time training Only)
+* Precautions(For Developers) : Precautions if user wants to train model pipeline in new system or in a new docker image, when already trained model is present in artifacts which is trained by another system, to avoid path conflicts, delete below mentioned folders.(For first time training only)
    ```bash
    Delete below mention folders to train model pipeline in new system.
        /src/cc_default_ml_nitin7478/src/artifact
        /src/cc_default_ml_nitin7478/Current_Model_Metric_Info
+       /src/cc_default_ml_nitin7478/saved_models
    ```
+   
 ## Configuration
 Three main config files are present in /src/cc_default_ml_nitin7478/config/ folder.
 1. config.yaml : It contains all the project related config details
