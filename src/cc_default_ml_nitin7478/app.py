@@ -88,7 +88,7 @@ def trainer():
 
 @app.route('/start_trainer')
 def start_trainer():
-    subprocess.run(["python", "demo.py"])
+    subprocess.run(["python", "pipeline.py"])
     log_content = get_log_content()
     return render_template('start_trainer.html', logs=log_content)
 
