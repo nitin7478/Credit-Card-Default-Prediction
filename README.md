@@ -53,7 +53,7 @@ Installation Reference : https://packaging.python.org/en/latest/tutorials/packag
 Three main config files are present in /src/cc_default_ml_nitin7478/config/ folder.
 1. config.yaml : It contains all the project related config details
 2. model.yaml : It contains all model training related details.
-3. chema.yaml : It containes schema of the dataset for validation purpose
+3. schema.yaml : It containes schema of the dataset for validation purpose
 
 ## Dataset
 The dataset used in this project can be found at [Dataset Link](https://archive.ics.uci.edu/static/public/350/default+of+credit+card+clients.zip).
