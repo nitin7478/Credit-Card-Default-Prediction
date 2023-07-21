@@ -68,3 +68,7 @@ model_selection:
   #     gamma:
   #     - scale
   #     - auto
+
+# Best Model
+# model_object=RandomForestClassifier(max_depth=6, max_features=5, n_estimators=150, random_state=0), 
+# train_f1_score=0.6927405189741125, test_f1_score=0.6734439344304128, train_accuracy=0.828125, test_accuracy=0.818, model_accuracy=0.8230313615308679

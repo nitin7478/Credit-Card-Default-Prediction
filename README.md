@@ -28,26 +28,24 @@ Installation Reference : https://packaging.python.org/en/latest/tutorials/packag
    ```bash
    python -m pip install dist/example_package_YOUR_USERNAME_HERE-0.0.1-py3-none-any.whl
    
-   
-7. Overview : 
-   ```bash
-   Main project folder : /src/cc_default_ml_nitin7478/
-   Flask web app file  : /src/cc_default_ml_nitin7478/app.py
-   Flask web app file  : /src/cc_default_ml_nitin7478/pipeline.py
+
 
 ## Usage 
 * Overview : 
    ```bash
-   Main project folder      : /src/cc_default_ml_nitin7478/
-   Flask web app fil: /src/cc_default_ml_nitin7478/app.py
-   To train pipeline/model  : /src/cc_default_ml_nitin7478/pipeline.py
+   Main project folder      : /
+   Flask web app fil        : /app.py
+   To train pipeline/model  : /pipeline.py
 * Precautions(For Developers) : Precautions if user wants to train model pipeline in new system or in a new docker image, when already trained model is present in artifacts which is trained by another system, to avoid path conflicts, delete below mentioned folders.(For first time training only)
    ```bash
-   Delete below mention folders to train model pipeline in new system./src/cc_default_ml_nitin7478/src/artifact/src/cc_default_ml_nitin7478/Current_Model_Metric_Info/src/cc_default_ml_nitin7478/saved_models
+   Delete below mention folders to train model pipeline in new system.
+   /src/artifact
+   /Current_Model_Metric_Info
+   /saved_models
    ```
    
 ## Configuration
-Three main config files are present in /src/cc_default_ml_nitin7478/config/ folder.
+Three main config files are present in /config folder.
 1. config.yaml : It contains all the project related config details
 2. model.yaml : It contains all model training related details.
 3. schema.yaml : It containes schema of the dataset for validation purpose
@@ -74,8 +72,9 @@ Credit-Card-Default-Prediction/
 ├── requirements.txt
 ├── tests/
 ├── config/
-│   ├── __init__.py
-│   └── configuration.py
+│   ├── config.yaml
+|   ├── model.yaml
+│   └── schema.yaml
 ├── Current_Model_Metric_Info/
 │   └── Current_Model_Metric_Info.csv
 ├── notebook/
