@@ -39,14 +39,11 @@ Installation Reference : https://packaging.python.org/en/latest/tutorials/packag
 * Overview : 
    ```bash
    Main project folder      : /src/cc_default_ml_nitin7478/
-   Flask web app file       : /src/cc_default_ml_nitin7478/app.py
+   Flask web app fil: /src/cc_default_ml_nitin7478/app.py
    To train pipeline/model  : /src/cc_default_ml_nitin7478/pipeline.py
 * Precautions(For Developers) : Precautions if user wants to train model pipeline in new system or in a new docker image, when already trained model is present in artifacts which is trained by another system, to avoid path conflicts, delete below mentioned folders.(For first time training only)
    ```bash
-   Delete below mention folders to train model pipeline in new system.
-       /src/cc_default_ml_nitin7478/src/artifact
-       /src/cc_default_ml_nitin7478/Current_Model_Metric_Info
-       /src/cc_default_ml_nitin7478/saved_models
+   Delete below mention folders to train model pipeline in new system./src/cc_default_ml_nitin7478/src/artifact/src/cc_default_ml_nitin7478/Current_Model_Metric_Info/src/cc_default_ml_nitin7478/saved_models
    ```
    
 ## Configuration
@@ -57,6 +54,7 @@ Three main config files are present in /src/cc_default_ml_nitin7478/config/ fold
 
 ## Dataset
 The dataset used in this project can be found at [Dataset Link](https://archive.ics.uci.edu/static/public/350/default+of+credit+card+clients.zip).
+(Thanks For Dataset -> Credit : https://archive.ics.uci.edu )
 
 ## Project Structure
 ```bash
@@ -64,55 +62,60 @@ The dataset used in this project can be found at [Dataset Link](https://archive.
 
 Credit-Card-Default-Prediction/
 │
-├── Dockerfile
+├── __init__.py
 ├── .dockerignore
 ├── .gitignore
 ├── LICENSE
 ├── pyproject.toml
 ├── README.md
-├── src/
-│   └── cc_default_ml_nitin7478/
-│       ├── __init__.py
-│       ├── app.py
-│       ├── demo.py
-│       ├── requirements.txt
-│       ├── config/
-│       │   ├── __init__.py
-│       │   └── configuration.py
-│       ├── Current_Model_Metric_Info/
-│       │   └── Current_Model_Metric_Info.csv
-│       ├── notebook/
-│       │   └── ... (Jupyter notebooks)
-│       ├── saved_models/
-│       │   └── ... (saved models)
-│       ├── templates/
-│       │   └── ... (HTML templates for the web app)
-│       └── src/
-│           ├── components/
-│           │   ├── data_ingestion.py
-│           │   ├── data_validation.py
-│           │   ├── data_transformation.py
-│           │   ├── model_trainer.py
-│           │   ├── model_evaluation.py
-│           │   └── model_pusher.py
-│           ├── config/
-│           │   ├── __init__.py
-│           │   └── configuration.py
-│           ├── constant/
-│           │   ├── __init__.py
-│           ├── entity/
-│           │   ├── __init__.py
-│           │   ├── artifact_entity.py
-│           │   ├── config_entity.py
-│           │   ├── model_factory.py
-│           │   └── predictor.py
-│           ├── pipeline/
-│           │   ├── __init__.py
-│           │   └── pipeline.py
-│           ├── __init__.py
-│           ├── exception.py
-│           ├── logger.py
-└── tests/
+├── Dockerfile
+├── app.py
+├── pipeline.py
+├── requirements.txt
+├── tests/
+├── config/
+│   ├── __init__.py
+│   └── configuration.py
+├── Current_Model_Metric_Info/
+│   └── Current_Model_Metric_Info.csv
+├── notebook/
+│   └── ... (Jupyter notebooks)
+├── saved_models/
+│   └── ... (saved models)
+├── templates/
+│   └── ... (HTML templates for the web app)
+├── Documents/
+│   ├── High Level Design.pdf
+│   ├── Low Level Design.pdf
+│   └── Wireframe.pdf
+└── src/
+    ├── components/
+    │   ├── __init__.py
+    │   ├── data_ingestion.py
+    │   ├── data_validation.py
+    │   ├── data_transformation.py
+    │   ├── model_trainer.py
+    │   ├── model_evaluation.py
+    │   └── model_pusher.py
+    ├── config/
+    │   ├── __init__.py
+    │   └── configuration.py
+    ├── constant/
+    │   ├── __init__.py
+    ├── entity/
+    │   ├── __init__.py
+    │   ├── artifact_entity.py
+    │   ├── config_entity.py
+    │   ├── model_factory.py
+    │   └── predictor.py
+    ├── pipeline/
+    │   ├── __init__.py
+    │   └── pipeline.py
+    ├── __init__.py
+    ├── exception.py
+    ├── logger.py
+
+
 
 
 ```
