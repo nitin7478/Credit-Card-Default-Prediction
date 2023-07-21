@@ -73,7 +73,7 @@ Credit-Card-Default-Prediction/
 ├── tests/
 ├── config/
 │   ├── config.yaml
-|   ├── model.yaml
+│   ├── model.yaml
 │   └── schema.yaml
 ├── Current_Model_Metric_Info/
 │   └── Current_Model_Metric_Info.csv
