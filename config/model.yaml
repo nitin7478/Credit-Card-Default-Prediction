@@ -14,8 +14,7 @@ model_selection:
       penalty: 
       - l2
       C: 
-      - 0.1
-      - 1
+      - 2.5
       - 3.7
       solver: 
       - liblinear 
@@ -26,14 +25,12 @@ model_selection:
       random_state: 0
     search_param_grid:
       n_estimators: 
-      - 50
       - 150 
       max_depth: 
-      - 3
       - 6 
       max_features: 
       - 5
-      - 7 
+      - 6 
   # module_2:
   #   class: DecisionTreeClassifier
   #   module: sklearn.tree
