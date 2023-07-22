@@ -77,7 +77,8 @@ Docker File Configuration :
 4. Stop container 
    ```bash
    docker container stop <first 3 or 4 digits of container>
-Note : Run localhost:7000 on web browser after starting docker container.
+
+   Note : Run localhost:7000 on web browser after starting docker container.
 
 
 
@@ -88,7 +89,8 @@ Note : Run localhost:7000 on web browser after starting docker container.
    Main project folder      : /
    Flask web app fil        : /app.py
    To train pipeline/model  : /pipeline.py
-   Note : Run localhost:5000 on web browser after starting app.py.
+
+   Note : Run localhost:5000 on web browser to starting flask web app i.e. app.py
 * Precautions(For Developers) : Precautions if user wants to train model pipeline in new system or in a new docker image, when already trained model is present in artifacts which is trained by another system, to avoid path conflicts, delete below mentioned folders.(For first time training only)
    ```bash
    Delete below mention folders to train model pipeline in new system.
