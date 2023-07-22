@@ -62,19 +62,23 @@ Installation Reference : https://packaging.python.org/en/latest/tutorials/packag
    
 
 ## Create Docker Container
+Docker File Configuration :
+![image](https://github.com/nitin7478/Credit-Card-Default-Prediction/assets/110007283/2010115b-9e2f-4a80-b53e-adea74efa04e)
 
 1. Build docker image
    ```bash
    docker build -t username/project_name .
 2. Run docker container 
    ```bash
-   docker container run -d -p 8000:8000 username/project_name
+   docker container run -d -p 7000:7000 username/project_name
 3. List running container
    ```bash
    docker container ls
 4. Stop container 
    ```bash
    docker container stop <first 3 or 4 digits of container>
+Note : Run localhost:7000 on web browser after starting docker container.
+
 
 
 
@@ -84,6 +88,7 @@ Installation Reference : https://packaging.python.org/en/latest/tutorials/packag
    Main project folder      : /
    Flask web app fil        : /app.py
    To train pipeline/model  : /pipeline.py
+   Note : Run localhost:5000 on web browser after starting app.py.
 * Precautions(For Developers) : Precautions if user wants to train model pipeline in new system or in a new docker image, when already trained model is present in artifacts which is trained by another system, to avoid path conflicts, delete below mentioned folders.(For first time training only)
    ```bash
    Delete below mention folders to train model pipeline in new system.
