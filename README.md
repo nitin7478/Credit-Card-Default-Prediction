@@ -63,18 +63,18 @@ Installation Reference : https://packaging.python.org/en/latest/tutorials/packag
 
 ## Create Docker Container
 
-Build docker image
+1. Build docker image
    ```bash
    docker build -t username/project_name .
-Run docker container 
+2. Run docker container 
    ```bash
    docker container run -d -p 8000:8000 username/project_name
-List running container
+3. List running container
    ```bash
    docker container ls
-Stop container 
+4. Stop container 
    ```bash
-   docker container stop <first 3 or four digits of container>
+   docker container stop <first 3 or 4 digits of container>
 
 
 
@@ -167,7 +167,8 @@ Credit-Card-Default-Prediction/
 
 
 ## Project Structure
-![image](https://github.com/nitin7478/Credit-Card-Default-Prediction/assets/110007283/717add83-ae0a-4d52-9586-df5a71858deb)
+![image](https://github.com/nitin7478/Credit-Card-Default-Prediction/assets/110007283/ae03a7f4-89c9-4c78-b36b-dc86c3cb30af)
+
 
 
 
