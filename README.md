@@ -149,7 +149,8 @@ Credit-Card-Default-Prediction/
 
 
 ## Project Structure
-![image](https://github.com/nitin7478/Credit-Card-Default-Prediction/assets/110007283/7dcc52f0-d040-4271-b0d9-ef6e3705f38d)
+![image](https://github.com/nitin7478/Credit-Card-Default-Prediction/assets/110007283/ebd08960-eaeb-4f6c-a8b9-d081aa5f5810)
+
 
 
 
