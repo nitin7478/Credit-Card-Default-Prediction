@@ -61,6 +61,22 @@ Installation Reference : https://packaging.python.org/en/latest/tutorials/packag
    python -m pip install dist/example_package_YOUR_USERNAME_HERE-0.0.1-py3-none-any.whl
    
 
+## Create Docker Container
+
+Build docker image
+   ```bash
+   docker build -t username/project_name .
+Run docker container 
+   ```bash
+   docker container run -d -p 8000:8000 username/project_name
+List running container
+   ```bash
+   docker container ls
+Stop container 
+   ```bash
+   docker container stop <first 3 or four digits of container>
+
+
 
 ## Usage 
 * Overview : 
@@ -91,7 +107,6 @@ The dataset used in this project can be found at [Dataset Link](https://archive.
 
 Credit-Card-Default-Prediction/
 │
-├── __init__.py
 ├── .dockerignore
 ├── .gitignore
 ├── LICENSE
@@ -101,6 +116,8 @@ Credit-Card-Default-Prediction/
 ├── app.py
 ├── pipeline.py
 ├── requirements.txt
+├── .ebextensions/
+│   └── python.config
 ├── tests/
 ├── config/
 │   ├── config.yaml
