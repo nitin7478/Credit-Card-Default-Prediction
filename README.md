@@ -148,6 +148,10 @@ Credit-Card-Default-Prediction/
 ```
 
 
+## Project Structure
+![image](https://github.com/nitin7478/Credit-Card-Default-Prediction/assets/110007283/330f6789-d018-417a-851f-a5e162ab25ff)
+
+
 ## Features
 
 * On one click or command to start training pipeline, pipeline will perform below tasks in que.We can call these tasks as components of pipeline.
