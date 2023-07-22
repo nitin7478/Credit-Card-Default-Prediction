@@ -3,6 +3,37 @@
 ## Project Demo Video Link : 
 Youtube : https://youtu.be/vSqoueBL9WA
 
+## Product Description
+
+The Credit Card Default Prediction project aims to develop a machine learning model that predicts whether a person will default on their credit card payment. The model utilizes historical payment data and various explanatory variables to make accurate predictions, helping financial institutions assess credit risk and make informed decisions.
+
+## Background
+
+Financial institutions encounter challenges in assessing creditworthiness and predicting default scenarios for credit card users. This project addresses these challenges by leveraging a binary variable, default payment (Yes = 1, No = 0), as the response variable. Additionally, the model uses 23 explanatory variables, including credit amount, gender, education level, marital status, age, history of past payment, bill statement amounts, and previous payment amounts. These variables provide crucial insights into an individual's credit behavior and financial stability.
+
+## Explanatory Variables
+
+The model uses the following 23 explanatory variables:
+
+1. X1: Amount of the given credit (NT dollar): it includes both the individual consumer credit and his/her family (supplementary) credit.
+2. X2: Gender (1 = male; 2 = female).
+3. X3: Education (1 = graduate school; 2 = university; 3 = high school; 4 = others).
+4. X4: Marital status (1 = married; 2 = single; 3 = others).
+5. X5: Age (year).
+6. X6 - X11: History of past payment. We tracked the past monthly payment records (from April to September, 2005) as follows: X6 = the repayment status in September, 2005; X7 = the repayment status in August, 2005; ...; X11 = the repayment status in April, 2005. The measurement scale for the repayment status is: -1 = pay duly; 1 = payment delay for one month; 2 = payment delay for two months; ...; 8 = payment delay for eight months; 9 = payment delay for nine months and above.
+7. X12 - X17: Amount of bill statement (NT dollar). X12 = amount of bill statement in September, 2005; X13 = amount of bill statement in August, 2005; ...; X17 = amount of bill statement in April, 2005.
+8. X18 - X23: Amount of previous payment (NT dollar). X18 = amount paid in September, 2005; X19 = amount paid in August, 2005; ...; X23 = amount paid in April, 2005.
+
+## Methodology
+
+The project follows a comprehensive approach that involves data preprocessing, feature selection, model training, and evaluation. It employs machine learning algorithms such as Logistic Regression, Random Forest, Gradient Boosting, Support Vector Machines (SVM), or Neural Networks for binary classification.
+
+## Key Features
+
+- Accurate Prediction: The model's accuracy ensures reliable credit risk assessment, reducing potential losses due to default scenarios.
+- Explainable Predictions: The project incorporates interpretability techniques to explain the model's predictions and gain insights into contributing factors.
+- Easy Integration: The trained model can be seamlessly integrated into existing systems for real-time credit evaluation.
+
 ## Installation Procedure
 Installation Reference : https://packaging.python.org/en/latest/tutorials/packaging-projects/
 
@@ -128,39 +159,6 @@ Credit-Card-Default-Prediction/
 4. Model Trainer : Read the model.yaml file and perfomed model training using GridSearchCV, and store the best performing model object with preprocessing object, in single object,  in trained_model folder inside model_trainer artifact folder.
 5. Model Evaluation : Evaulate the best performing model from previously , model_trainer artifact , with current model in production is any. If current trained model is better than previous model , replace previous with current model. We will keep best performing model. All the artifacts will be stored in Model_evaluation folder as model_evaluation.yaml. Then export the final model to src/saved_models folder for production.
 * To experiment with model training parameters use , model.yaml file in src/config folder.
-
-
-## Product Description
-
-The Credit Card Default Prediction project aims to develop a machine learning model that predicts whether a person will default on their credit card payment. The model utilizes historical payment data and various explanatory variables to make accurate predictions, helping financial institutions assess credit risk and make informed decisions.
-
-### Background
-
-Financial institutions encounter challenges in assessing creditworthiness and predicting default scenarios for credit card users. This project addresses these challenges by leveraging a binary variable, default payment (Yes = 1, No = 0), as the response variable. Additionally, the model uses 23 explanatory variables, including credit amount, gender, education level, marital status, age, history of past payment, bill statement amounts, and previous payment amounts. These variables provide crucial insights into an individual's credit behavior and financial stability.
-
-### Explanatory Variables
-
-The model uses the following 23 explanatory variables:
-
-1. X1: Amount of the given credit (NT dollar): it includes both the individual consumer credit and his/her family (supplementary) credit.
-2. X2: Gender (1 = male; 2 = female).
-3. X3: Education (1 = graduate school; 2 = university; 3 = high school; 4 = others).
-4. X4: Marital status (1 = married; 2 = single; 3 = others).
-5. X5: Age (year).
-6. X6 - X11: History of past payment. We tracked the past monthly payment records (from April to September, 2005) as follows: X6 = the repayment status in September, 2005; X7 = the repayment status in August, 2005; ...; X11 = the repayment status in April, 2005. The measurement scale for the repayment status is: -1 = pay duly; 1 = payment delay for one month; 2 = payment delay for two months; ...; 8 = payment delay for eight months; 9 = payment delay for nine months and above.
-7. X12 - X17: Amount of bill statement (NT dollar). X12 = amount of bill statement in September, 2005; X13 = amount of bill statement in August, 2005; ...; X17 = amount of bill statement in April, 2005.
-8. X18 - X23: Amount of previous payment (NT dollar). X18 = amount paid in September, 2005; X19 = amount paid in August, 2005; ...; X23 = amount paid in April, 2005.
-
-### Methodology
-
-The project follows a comprehensive approach that involves data preprocessing, feature selection, model training, and evaluation. It employs machine learning algorithms such as Logistic Regression, Random Forest, Gradient Boosting, Support Vector Machines (SVM), or Neural Networks for binary classification.
-
-### Key Features
-
-- Accurate Prediction: The model's accuracy ensures reliable credit risk assessment, reducing potential losses due to default scenarios.
-- Explainable Predictions: The project incorporates interpretability techniques to explain the model's predictions and gain insights into contributing factors.
-- Easy Integration: The trained model can be seamlessly integrated into existing systems for real-time credit evaluation.
-
 
 
 ## License
