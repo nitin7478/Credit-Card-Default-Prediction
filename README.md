@@ -147,12 +147,6 @@ Credit-Card-Default-Prediction/
     ├── logger.py
 
 
-![Untitled Diagram (1) drawio (1)](https://github.com/nitin7478/Credit-Card-Default-Prediction/assets/110007283/2364949d-13b0-474a-9495-e27a9141ac64)
-
-## Project Architecture
-![image](https://github.com/nitin7478/Credit-Card-Default-Prediction/assets/110007283/60dd789f-a6f5-4965-be8c-cd2ea8a2a58e)
-
-
 
 
 ## Features
