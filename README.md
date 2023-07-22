@@ -149,7 +149,8 @@ Credit-Card-Default-Prediction/
 
 
 ## Project Architecture
-```![Untitled Diagram (1) drawio](https://github.com/nitin7478/Credit-Card-Default-Prediction/assets/110007283/93881d7c-e1ef-4b16-81bb-1cdbf3b78a82)
+![Untitled Diagram (1) drawio](https://github.com/nitin7478/Credit-Card-Default-Prediction/assets/110007283/160ca606-5aa6-47f6-83d1-5793791d2c94)
+
 
 
 ## Features
