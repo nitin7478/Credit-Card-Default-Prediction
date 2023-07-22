@@ -1,7 +1,7 @@
 # Credit Card Default Prediction
 
 ## Project Demo Video Link : 
-https://youtu.be/vSqoueBL9WA
+Youtube : https://youtu.be/vSqoueBL9WA
 
 ## Installation Procedure
 Installation Reference : https://packaging.python.org/en/latest/tutorials/packaging-projects/
