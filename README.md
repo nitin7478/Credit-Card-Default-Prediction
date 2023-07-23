@@ -114,8 +114,8 @@ Note : Run localhost:5000 on web browser to starting flask web app i.e. app.py
 ## Configuration
 Three main config files are present in /config folder.
 1. config.yaml : It contains all the project related config details
-2. model.yaml : It contains all model training related details.
-3. schema.yaml : It containes schema of the dataset for validation purpose
+2. model.yaml : It contains all model training related details. Change parameters in this file to perform hyperparameter tuning.
+3. schema.yaml : It containes schema of the dataset for validation purpose.
 
 ## Dataset
 The dataset used in this project can be found at [Dataset Link](https://archive.ics.uci.edu/static/public/350/default+of+credit+card+clients.zip).
