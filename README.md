@@ -3,6 +3,9 @@
 ## Project Demo Video Link : 
 Youtube : https://youtu.be/vSqoueBL9WA
 
+## Linkdn Profile : 
+Linkdn : https://www.linkedin.com/in/nitinudmale/
+
 ## Product Description
 
 The Credit Card Default Prediction project aims to develop a machine learning model that predicts whether a person will default on their credit card payment. The model utilizes historical payment data and various explanatory variables to make accurate predictions, helping financial institutions assess credit risk and make informed decisions.
