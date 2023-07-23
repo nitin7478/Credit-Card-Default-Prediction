@@ -196,7 +196,7 @@ Credit-Card-Default-Prediction/
 
 ## Features
 
-* On one click or command to start training pipeline, pipeline will perform below tasks in que.We can call these tasks as components of pipeline.
+* On one click or command, program will start training pipeline, pipeline will perform below tasks in que.We can call these tasks as components of pipeline.
 1. Data Ingestion : First current data,zip file , will be downloaded from given link and it will be extracted as raw data , then it will be splitted into training and test dataset. All the artifacts will be stored in data_ingestion folder.
 2. Data Validation : Schema validation and data drift task will be performed in this component. We will be using evidently library to genrate data drift reports.All the artifacts will be stored in data_validation folder.
 3. Data Transformation : Validated data will be transformed using preprocessing object as per project need.All the artifacts will be stored in data_transformation folder.
