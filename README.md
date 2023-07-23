@@ -34,6 +34,11 @@ The project follows a comprehensive approach that involves data preprocessing, f
 - Explainable Predictions: The project incorporates interpretability techniques to explain the model's predictions and gain insights into contributing factors.
 - Easy Integration: The trained model can be seamlessly integrated into existing systems for real-time credit evaluation.
 
+## Pull Docker Container
+* Access docker hub image of the project.
+   ```bash
+   docker pull nitin7478/creditcard_default_prediction
+
 ## Installation Procedure
 Installation Reference : https://packaging.python.org/en/latest/tutorials/packaging-projects/
 
