@@ -76,17 +76,18 @@ Installation Reference : https://packaging.python.org/en/latest/tutorials/packag
 3. upgrade pip:
    ```bash
    python -m pip install --upgrade pip
-4. Install the Required Packages from pyproject.toml:
+4. Install build package:
    ```bash
-   python -m pip install setuptools
    python -m pip install --upgrade build
+5. Install the Required Packages from pyproject.toml
+   ```bash
    python -m build
-5. This command will output a lot of text and once completed should generate two files in the dist directory:
+6. This command will output a lot of text and once completed should generate two files in the dist directory:
    ```bash
    dist/
    ├── example_package_YOUR_USERNAME_HERE-0.0.1-py3-none-any.whl
    └── example_package_YOUR_USERNAME_HERE-0.0.1.tar.gz
-6. Install the Distribution File:
+7. Install the Distribution File:
    ```bash
    python -m pip install dist/example_package_YOUR_USERNAME_HERE-0.0.1-py3-none-any.whl
    
@@ -94,11 +95,14 @@ Installation Reference : https://packaging.python.org/en/latest/tutorials/packag
 
 
 ## Usage 
-* Overview : 
+1. Main project folder         : /
+2. Flask web page application  : /app.py
    ```bash
-   Main project folder      : /
-   Flask web app fil        : /app.py
-   To train pipeline/model  : /pipeline.py
+   python app.py
+3. To train ml pipeline/model  : /pipeline.py
+   ```bash
+   python pipeline.py
+   
 
    Note : Run localhost:5000 on web browser to starting flask web app i.e. app.py
 * Precautions(For Developers) : Precautions if user wants to train model pipeline in new system or in a new docker image, when already trained model is present in artifacts which is trained by another system, to avoid path conflicts, delete below mentioned folders.(For first time training only)
