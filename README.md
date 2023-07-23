@@ -39,6 +39,27 @@ The project follows a comprehensive approach that involves data preprocessing, f
    ```bash
    docker pull nitin7478/creditcard_default_prediction
 
+## Create Docker Container
+Docker File Configuration :
+![image](https://github.com/nitin7478/Credit-Card-Default-Prediction/assets/110007283/2010115b-9e2f-4a80-b53e-adea74efa04e)
+
+1. Build docker image
+   ```bash
+   docker build -t username/project_name .
+2. Run docker container 
+   ```bash
+   docker container run -d -p 7000:7000 username/project_name
+3. List running container
+   ```bash
+   docker container ls
+4. Stop container 
+   ```bash
+   docker container stop <first 3 or 4 digits of container>
+
+   Note : Run localhost:7000 on web browser after starting docker container.
+
+
+
 ## Installation Procedure
 Installation Reference : https://packaging.python.org/en/latest/tutorials/packaging-projects/
 
@@ -65,26 +86,6 @@ Installation Reference : https://packaging.python.org/en/latest/tutorials/packag
    ```bash
    python -m pip install dist/example_package_YOUR_USERNAME_HERE-0.0.1-py3-none-any.whl
    
-
-## Create Docker Container
-Docker File Configuration :
-![image](https://github.com/nitin7478/Credit-Card-Default-Prediction/assets/110007283/2010115b-9e2f-4a80-b53e-adea74efa04e)
-
-1. Build docker image
-   ```bash
-   docker build -t username/project_name .
-2. Run docker container 
-   ```bash
-   docker container run -d -p 7000:7000 username/project_name
-3. List running container
-   ```bash
-   docker container ls
-4. Stop container 
-   ```bash
-   docker container stop <first 3 or 4 digits of container>
-
-   Note : Run localhost:7000 on web browser after starting docker container.
-
 
 
 
